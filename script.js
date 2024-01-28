@@ -1,12 +1,12 @@
 let boxes = document.querySelectorAll(".box");
 
 let turn = "X";
-let GameOver = false;
+let isGameOver = false;
 
 boxes.forEach(e =>{
     e.innerHTML = ""
     e.addEventListener("click", ()=>{
-        if(!GameOver && e.innerHTML === ""){
+        if(!isGameOver && e.innerHTML === ""){
             e.innerHTML = turn;
             Win();
             Draw();
@@ -48,10 +48,10 @@ function Win(){
         });
       }
     }
-}
+  }
 
 function Draw(){
-    if(!GameOver){
+    if(!isGameOver){
         let isDraw = true;
         boxes.forEach(e =>{
             if(e.innerHTML === "") isDraw = false;
@@ -66,7 +66,7 @@ function Draw(){
 }
 
 document.querySelector("#play-again").addEventListener("click", ()=>{
-    GameOver = false;
+    isGameOver = false;
     turn = "X";
     document.querySelector(".bg").style.left = "0";
     document.querySelector("#results").innerHTML = "";
