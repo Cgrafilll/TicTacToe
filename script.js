@@ -5,13 +5,10 @@ let GameOver = false;
 boxes.forEach(e => {
   e.innerHTML = "";
   e.addEventListener("click", () => {
-    if (GameOver || e.innerHTML !== "") {
-      // If the game is over or the box is already clicked, do nothing
-      return;
+    if (!GameOver && e.innerHTML === "") {
+      e.innerHTML = turn;
+      gameplay();
     }
-
-    e.innerHTML = turn;
-    gameplay();
   });
 });
 
