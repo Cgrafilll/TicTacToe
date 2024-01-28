@@ -6,7 +6,7 @@ let GameOver = false;
 boxes.forEach(e =>{
     e.innerHTML = ""
     e.addEventListener("click", ()=>{
-        if(!isGameOver && e.innerHTML === ""){
+        if(!GameOver && e.innerHTML === ""){
             e.innerHTML = turn;
             Win();
             Draw();
@@ -48,7 +48,7 @@ function Win(){
         });
       }
     }
-  }
+}
 
 function Draw(){
     if(!GameOver){
