@@ -5,6 +5,12 @@
     user-select: none;
 }
 
+.align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 body {
     display: flex;
     flex-direction: column;
