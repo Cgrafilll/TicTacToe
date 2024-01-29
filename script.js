@@ -67,7 +67,10 @@ function Win() {
 
         if (isWin) {
             isGameOver = true;
-            document.querySelector("#results").innerHTML = turn + " wins!";
+            document.querySelector(".main-container").style.display = "none";
+            document.querySelector(".turn-container").style.display = "none";
+            document.querySelector(".opponent-toggle").style.display = "none";
+            document.querySelector("#results").innerHTML = "Player " + turn + " wins!";
             document.querySelector("#play-again").style.display = "inline";
 
             // Update the scores
@@ -115,20 +118,6 @@ function Draw() {
     }
 }
 
-document.querySelector("#play-again").addEventListener("click", () => {
-    isGameOver = false;
-    turn = "X";
-    document.querySelector(".bg").style.left = "0";
-    document.querySelector("#results").innerHTML = "";
-    document.querySelector("#play-again").style.display = "none";
-
-    boxes.forEach(e => {
-        e.innerHTML = "";
-        e.style.removeProperty("background-color");
-        e.style.color = "#fff";
-    });
-});
-
 document.getElementById("choosePlayer").addEventListener("click", () => {
     vsAI = false;
     resetGame();
@@ -159,6 +148,19 @@ function makeAIMove() {
     }
 }
 
-document.querySelector("#play-again").addEventListener("click", resetGame);
+document.querySelector("#play-again").addEventListener("click", () => {
+    isGameOver = false;
+    turn = "X";
+    document.querySelector(".main-container").style.display = "flex";
+    document.querySelector(".turn-container").style.display = "grid";
+    document.querySelector(".opponent-toggle").style.display = "flex";
+    document.querySelector(".bg").style.left = "0";
+    document.querySelector("#results").innerHTML = "";
+    document.querySelector("#play-again").style.display = "none";
 
-
+    boxes.forEach(e => {
+        e.innerHTML = "";
+        e.style.removeProperty("background-color");
+        e.style.color = "#fff";
+    });
+});
