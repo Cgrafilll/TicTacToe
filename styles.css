@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 * {
     color: white;
-    font-family: sans-serif;
+    font-family: 'Poppins';
     transition: 0.2s ease-in-out;
     user-select: none;
 }
@@ -101,7 +103,7 @@ body {
 
 .turn-container .turn-box {
     border: 3px solid #000;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     font-weight: 700;
 }
 
@@ -114,7 +116,7 @@ body {
     bottom: 0;
     left: 0;
     width: 85px;
-    height: 35px;
+    height: 30px;
     background-color: #FF2E63;
     z-index: -1;
 }
