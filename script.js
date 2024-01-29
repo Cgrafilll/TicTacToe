@@ -111,6 +111,8 @@ function Draw() {
 
         if (isDraw) {
             isGameOver = true;
+            document.querySelector(".turn-container").style.display = "none";
+            document.querySelector(".opponent-toggle").style.display = "none";
             document.querySelector("#results").innerHTML = "Draw";
             document.querySelector("#play-again").style.display = "inline";
         }
