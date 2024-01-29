@@ -160,3 +160,28 @@ body {
     padding: 4px;
     border-radius: 5px;
 }
+
+.opponent-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .opponent-toggle button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 2px solid #fff;
+    background-color: transparent;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .opponent-toggle button.active {
+    background-color: #fff;
+    color: #252A34;
+  }
+  
+  .opponent-toggle button:not(.active):hover {
+    background-color: #444;
+  }
