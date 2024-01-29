@@ -67,7 +67,6 @@ function Win() {
 
         if (isWin) {
             isGameOver = true;
-            document.querySelector(".main-container").style.display = "none";
             document.querySelector(".turn-container").style.display = "none";
             document.querySelector(".opponent-toggle").style.display = "none";
             document.querySelector("#results").innerHTML = "Player " + turn + " wins!";
@@ -151,7 +150,6 @@ function makeAIMove() {
 document.querySelector("#play-again").addEventListener("click", () => {
     isGameOver = false;
     turn = "X";
-    document.querySelector(".main-container").style.display = "flex";
     document.querySelector(".turn-container").style.display = "grid";
     document.querySelector(".opponent-toggle").style.display = "flex";
     document.querySelector(".bg").style.left = "0";
