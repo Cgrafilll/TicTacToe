@@ -3,6 +3,7 @@ let turn = "X";
 let isGameOver = false;
 let playerXWins = 0;
 let playerOWins = 0;
+let vsAI = false;
 
 boxes.forEach(e => {
     e.innerHTML = "";
@@ -12,9 +13,35 @@ boxes.forEach(e => {
             Win();
             Draw();
             Turns();
+            if (vsAI && !isGameOver && turn === "O") {
+                makeAIMove();
+            }
         }
     });
 });
+
+document.querySelector("#choosePlayer").addEventListener("click", () => {
+    vsAI = !vsAI; 
+    resetGame();
+});
+
+function resetGame() {
+    isGameOver = false;
+    turn = "X";
+    document.querySelector(".bg").style.left = "0";
+    document.querySelector("#results").innerHTML = "";
+    document.querySelector("#play-again").style.display = "none";
+
+    boxes.forEach(e => {
+        e.innerHTML = "";
+        e.style.removeProperty("background-color");
+        e.style.color = "#fff";
+    });
+
+    if (vsAI && turn === "O") {
+        makeAIMove();
+    }
+}
 
 function Turns() {
     if (turn === "X") {
@@ -101,3 +128,37 @@ document.querySelector("#play-again").addEventListener("click", () => {
         e.style.color = "#fff";
     });
 });
+
+document.getElementById("choosePlayer").addEventListener("click", () => {
+    vsAI = false;
+    resetGame();
+    document.getElementById("choosePlayer").classList.add("active");
+    document.getElementById("chooseAI").classList.remove("active");
+});
+
+document.getElementById("chooseAI").addEventListener("click", () => {
+    vsAI = true;
+    resetGame();
+    document.getElementById("chooseAI").classList.add("active");
+    document.getElementById("choosePlayer").classList.remove("active");
+
+    if (turn === "O") {
+        makeAIMove();
+    }
+});
+
+function makeAIMove() {
+    const emptyBoxes = Array.from(boxes).filter(box => box.innerHTML === "");
+
+    if (emptyBoxes.length > 0) {
+        const randomIndex = Math.floor(Math.random() * emptyBoxes.length);
+        emptyBoxes[randomIndex].innerHTML = "O";
+        Win();
+        Draw();
+        Turns();
+    }
+}
+
+document.querySelector("#play-again").addEventListener("click", resetGame);
+
+
