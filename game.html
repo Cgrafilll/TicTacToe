@@ -10,8 +10,13 @@
 </head>
 
 <body>
-    <h1 id="title">Tic Tac Toe</h1>
     <div class="container">
+    <h1 id="title">Tic Tac Toe</h1>
+      <div class="turn-container">
+          <div class="turn-box align">X's Turn</div>
+          <div class="turn-box align">O's Turn</div>
+          <div class="bg"></div>
+      </div>
       <div class="main-container">
         <div class="main-grid">
             <div class="box align"></div>
@@ -46,12 +51,6 @@
             <div class="box align"></div>
           </div>
         </div>    
-        <div class="turn-container">
-              <h3>Turn For</h3>
-              <div class="turn-box align">X</div>
-              <div class="turn-box align">O</div>
-              <div class="bg"></div>
-        </div>
         <div class="scoreboard">
           <div id="player-x-score">
             <span class="label">Player X:</span>
@@ -65,10 +64,17 @@
         <div class="opponent-toggle">
           <button id="choosePlayer" class="active">Another Player</button>
           <button id="chooseAI">AI Opponent</button>
-        </div>  
+        </div>
+        <h2 id="results"></h2>
+        <button id="play-again">Reset Board</button>
     </div>
-    <h2 id="results"></h2>
-    <button id="play-again">Play Again</button>
+    <footer>
+        <span>Abenir, Justin Jazz</span>
+        <span>Dillinger, Sean</span>
+        <span>Grafil, Christian</span>
+        <span>Pineda, Lhynette</span>
+        <span>Verania, Archie</span>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
