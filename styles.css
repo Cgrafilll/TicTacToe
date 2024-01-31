@@ -39,6 +39,12 @@ body {
   }
 }
 
+.container {
+    margin: auto;
+    postion: absolute;
+    padding-bottom: 50px;
+}
+
 .main-container {
     display: flex;
     justify-content: center;
@@ -76,7 +82,7 @@ body {
 
 .box {
     cursor: pointer;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     border: 2px solid #000;
 }
@@ -86,8 +92,8 @@ body {
 }
 
 .turn-container {
-    width: 170px;
-    height: 80px;
+    width: 300px;
+    height: 50px;
     margin: 10px auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -95,19 +101,13 @@ body {
     position: relative;
 }
 
-.turn-container h3 {
-    margin: 10px;
-    grid-column-start: 1;
-    grid-column-end: 3;
-}
-
 .turn-container .turn-box {
+    padding: 10px;
     border: 3px solid #000;
     font-size: 1.2rem;
-    font-weight: 700;
 }
 
-.turn-container .turn-box:nth-child(even) {
+.turn-container .turn-box:nth-child(odd) {
     border-right: none;
 }
 
@@ -115,8 +115,8 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 85px;
-    height: 30px;
+    width: 150px;
+    height: 50px;
     background-color: #FF2E63;
     z-index: -1;
 }
@@ -162,10 +162,10 @@ body {
   
 .opponent-toggle button {
     padding: 10px 20px;
-    width: 170px;
-    font-size: 1rem;
+    width: 200px;
+    font-size: 1.2rem;
     cursor: pointer;
-    border: 2px solid #000;
+    border: 3px solid #000;
     background-color: transparent;
     color: #fff;
     transition: background-color 0.3s, color 0.3s;
@@ -200,3 +200,46 @@ body {
     background-color: #08D9D6;
     color: #000;
 }
+
+footer {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    display: flex;
+    bottom: 0;
+    padding: 10px;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    background: linear-gradient(to top, #252A34, #384051, #536179);
+    text-align: center;
+    justify-content: center;
+}
+
+footer span {
+    font-size: 1rem;
+    margin: 0 50px;
+    transition: color 0.5s ease-in-out;
+}
+
+footer span:hover {
+    color: #08D9D6;
+}
+
+@media (max-width: 1150px) {
+    footer span {
+        margin: auto 30px; 
+    }
+}
+
+@media (max-width: 950px) {
+    footer span {
+        margin: auto 10px; 
+    }
+}
+
+@media (max-width: 800px) {
+    footer {
+        display: none;
+    }
+}
+
