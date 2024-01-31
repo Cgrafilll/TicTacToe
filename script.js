@@ -14,7 +14,7 @@ boxes.forEach(e => {
             Draw();
             Turns();
             if (vsAI && !isGameOver && turn === "O") {
-                makeAIMove();
+                setTimeout(makeAIMove, 1000);
             }
         }
     });
@@ -31,6 +31,8 @@ function resetGame() {
     document.querySelector(".bg").style.left = "0";
     document.querySelector("#results").innerHTML = "";
     document.querySelector("#play-again").style.display = "none";
+    document.querySelector(".turn-container").style.display = "grid";
+    document.querySelector(".opponent-toggle").style.display = "flex";
 
     boxes.forEach(e => {
         e.innerHTML = "";
@@ -46,7 +48,7 @@ function resetGame() {
 function Turns() {
     if (turn === "X") {
         turn = "O";
-        document.querySelector(".bg").style.left = "85px";
+        document.querySelector(".bg").style.left = "150px";
     } else {
         turn = "X";
         document.querySelector(".bg").style.left = "0";
@@ -66,9 +68,7 @@ function Win() {
         let isWin = values.every(value => value !== "" && value === values[0]);
 
         if (isWin) {
-            isGameOver = true;
-            document.querySelector(".turn-container").style.display = "none";
-            document.querySelector(".opponent-toggle").style.display = "none";
+            hide();
             document.querySelector("#results").innerHTML = "Player " + turn + " wins!";
             document.querySelector("#play-again").style.display = "inline";
 
@@ -91,6 +91,7 @@ function Win() {
                 document.querySelector("#results").innerHTML =
                     playerXWins === 5 ? "Player X wins the game!" : "Player O wins the game!";
                 document.querySelector("#play-again").style.display = "inline";
+                document.querySelector("#play-again").innerHTML = "Play Again";
 
                 // Reset the scoreboard when the game is won
                 playerXWins = 0;
@@ -110,9 +111,7 @@ function Draw() {
         });
 
         if (isDraw) {
-            isGameOver = true;
-            document.querySelector(".turn-container").style.display = "none";
-            document.querySelector(".opponent-toggle").style.display = "none";
+            hide();
             document.querySelector("#results").innerHTML = "Draw";
             document.querySelector("#play-again").style.display = "inline";
         }
@@ -149,18 +148,10 @@ function makeAIMove() {
     }
 }
 
-document.querySelector("#play-again").addEventListener("click", () => {
-    isGameOver = false;
-    turn = "X";
-    document.querySelector(".turn-container").style.display = "grid";
-    document.querySelector(".opponent-toggle").style.display = "flex";
-    document.querySelector(".bg").style.left = "0";
-    document.querySelector("#results").innerHTML = "";
-    document.querySelector("#play-again").style.display = "none";
+function hide() {
+    isGameOver = true;
+    document.querySelector(".turn-container").style.display = "none";
+    document.querySelector(".opponent-toggle").style.display = "none";
+}
 
-    boxes.forEach(e => {
-        e.innerHTML = "";
-        e.style.removeProperty("background-color");
-        e.style.color = "#fff";
-    });
-});
+document.querySelector("#play-again").addEventListener("click", resetGame);
