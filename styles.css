@@ -221,8 +221,16 @@ footer span {
     transition: color 0.5s ease-in-out;
 }
 
+#F:hover {
+    color: pink;
+}
+
 footer span:hover {
     color: #08D9D6;
+}
+
+.link {
+    text-decoration: none;
 }
 
 @media (max-width: 1150px) {

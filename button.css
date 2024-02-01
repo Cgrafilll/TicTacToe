@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins';
+  color: #fff;
 }
 
 body {
@@ -31,7 +32,7 @@ body {
   }
 }
 
-a {
+.pick {
   position: relative;
   background: #fff;
   color: #fff;
@@ -45,14 +46,14 @@ a {
   text-align: center;
 }
 
-a:hover {
+.pick:hover {
   background: var(--clr);
   color: var(--clr);
   letter-spacing: 0.2em;
   box-shadow: 0 0 35px  var(--clr);
 }
 
-a:before {
+.pick:before {
   content: "";
   position: absolute;
   inset: 2px;
@@ -61,18 +62,18 @@ a:before {
   animation: color 10s infinite;
 }
 
-a span {
+.pick span {
   position: relative;
   z-index: 1;
 }
 
-a i {
+.pick i {
   position: absolute;
   inset: 0;
   display: block;
 }
 
-a i::before {
+.pick i::before {
   content: "";
   position: absolute;
   top: 0;
@@ -86,12 +87,12 @@ a i::before {
   transition: 0.5s;
 }
 
-a:hover i::before {
+.pick:hover i::before {
   width: 20px;
   left: 20%;
 }
 
-a i::after {
+.pick i::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -105,7 +106,39 @@ a i::after {
   transition: 0.5s;
 }
 
-a:hover i::after {
+.pick:hover i::after {
   width: 20px;
   left: 80%;
+}
+
+footer {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    display: flex;
+    bottom: 0;
+    padding: 10px;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    background: linear-gradient(to top, #252A34, #384051, #536179);
+    text-align: center;
+    justify-content: center;
+}
+
+footer span {
+    font-size: 1rem;
+    margin: 0 50px;
+    transition: color 0.5s ease-in-out;
+}
+
+#F:hover {
+    color: pink;
+}
+
+footer span:hover {
+    color: #08D9D6;
+}
+
+.link {
+    text-decoration: none;
 }
