@@ -5,7 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins';
-
+  
 }
 
 body {
@@ -18,7 +18,7 @@ body {
   background-size: 300% 300%;
   animation: color 10s infinite;
   gap: 50px;
-  color:#fff;
+  
 }
 
 @keyframes color {
@@ -124,14 +124,13 @@ footer {
     background: linear-gradient(to top, #252A34, #384051, #536179);
     text-align: center;
     justify-content: center;
- 
 }
 
 footer span {
     font-size: 1rem;
     margin: 0 50px;
     transition: color 0.5s ease-in-out;
-    color:#fff;
+    color: #fff;
 }
 
 #F:hover {
@@ -144,22 +143,4 @@ footer span:hover {
 
 .link {
     text-decoration: none;
-}
-
-@media (max-width: 1150px) {
-    footer span {
-        margin: auto 30px; 
-    }
-}
-
-@media (max-width: 950px) {
-    footer span {
-        margin: auto 10px; 
-    }
-}
-
-@media (max-width: 800px) {
-    footer {
-        display: none;
-    }
 }

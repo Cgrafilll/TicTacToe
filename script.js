@@ -22,6 +22,7 @@ function resetGame() {
     document.querySelector(".bg").style.left = "0";
     document.querySelector("#results").innerHTML = "";
     document.querySelector(".turn-container").style.display = "grid";
+    document.querySelector(".scoreboard").style.display = "flex";
     document.querySelector(".buttons").style.display = "none";
 
     boxes.forEach(e => {
@@ -100,7 +101,7 @@ function Draw() {
         if (isDraw) {
             hide();
             document.querySelector("#results").innerHTML = "Draw";
-            document.querySelector("#play-again").style.display = "inline";
+            document.querySelector(".buttons").style.display = "flex";
         }
     }
 }
