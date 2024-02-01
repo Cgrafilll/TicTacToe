@@ -127,7 +127,7 @@ body {
     align-items: center;
     padding: 10px;
     border-radius: 20px;
-    margin-top: 10px;
+    margin-top: 0;
 }
 
 .scoreboard span {
@@ -153,50 +153,43 @@ body {
     border-radius: 5px;
 }
 
-.opponent-toggle {
-    display: flex;
-    justify-content: center;
+.buttons {
+    display: none;
+    flex-direction: column;
     align-items: center;
     padding: 10px;
-}
-  
-.opponent-toggle button {
-    padding: 10px 20px;
-    width: 200px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    border: 3px solid #000;
-    background-color: transparent;
-    color: #fff;
-    transition: background-color 0.3s, color 0.3s;
+    width: 325px;
+    margin-top: 0;
+    position: relative;
 }
 
-.opponent-toggle button:nth-child(odd) {
-    border-right: none;
-}
-  
-.opponent-toggle button.active {
-    background-color: #FF2E63;
-    color: #fff;
-}
-  
-.opponent-toggle button:not(.active):hover {
-    background-color: #08D9D6;
-    color: #000;
+.buttons h2 {
+    margin-top: 0;
+    line-height: 0.5;
 }
 
-#play-again {
+.btn {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#play-again,
+#quit {
     background-color: #FF2E63;
-    padding: 10px 25px;
+    padding: 10px;
     border: none;
     font-size: 1.2rem;
     border-radius: 5px;
     cursor: pointer;
-    display: none;
-    margin-top: 0;
+    width: 150px;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
-#play-again:hover {
+#play-again:hover,
+#quit:hover {
     background-color: #08D9D6;
     color: #000;
 }
@@ -213,14 +206,12 @@ footer {
     background: linear-gradient(to top, #252A34, #384051, #536179);
     text-align: center;
     justify-content: center;
- 
 }
 
 footer span {
     font-size: 1rem;
     margin: 0 50px;
     transition: color 0.5s ease-in-out;
-    color:#fff;
 }
 
 #F:hover {
@@ -252,3 +243,4 @@ footer span:hover {
         display: none;
     }
 }
+
