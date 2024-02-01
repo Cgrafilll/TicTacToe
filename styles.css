@@ -213,12 +213,14 @@ footer {
     background: linear-gradient(to top, #252A34, #384051, #536179);
     text-align: center;
     justify-content: center;
+ 
 }
 
 footer span {
     font-size: 1rem;
     margin: 0 50px;
     transition: color 0.5s ease-in-out;
+    color:#fff;
 }
 
 #F:hover {
@@ -250,4 +252,3 @@ footer span:hover {
         display: none;
     }
 }
-
