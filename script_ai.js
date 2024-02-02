@@ -63,6 +63,17 @@ let winConditions = [
         }
     }
 
+
+
+   function player_move () {
+        if (button_states[buttonNum] == "unclicked") {
+            button_states[buttonNum] = turn;
+            button.innerHTML = turn;
+        } else if (button_states[buttonNum] == "X" || button_states[buttonNum] == "O" || button_states[buttonNum] == "clicked") {
+            return
+        }
+    }
+
     function easyAIMove() {
         let emptyIndices = [];
         // Find empty positions on the board
