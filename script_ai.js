@@ -6,20 +6,21 @@ document.addEventListener("DOMContentLoaded", function () {
     let playerOWins = 0;
     let difficulty = "";
 
-// Initialize empty game board (5x6)
-let board = ['', '', '', '', '',
-             '', '', '', '', '',
-             '', '', '', '', '',
-             '', '', '', '', '',
-             '', '', '', '', ''];
+    // Initialize empty game board (5x6)
+    let board = ['', '', '', '', '',
+                 '', '', '', '', '',
+                 '', '', '', '', '',
+                 '', '', '', '', '',
+                 '', '', '', '', ''];
 
-// Define win conditions for a 5x6 grid
-let winConditions = [
-    [0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14], [15, 16, 17, 18, 19], [20, 21, 22, 23, 24], [25, 26, 27, 28, 29], // Rows
-    [0, 5, 10, 15, 20], [1, 6, 11, 16, 21], [2, 7, 12, 17, 22], [3, 8, 13, 18, 23], [4, 9, 14, 19, 24], [5, 10, 15, 20, 25], [6, 11, 16, 21, 26], [7, 12, 17, 22, 27], [8, 13, 18, 23, 28], [9, 14, 19, 24, 29], // Columns
-    [0, 6], [1, 7, 12], [2, 8, 13, 18], [3, 9, 14, 19, 24], [4, 10, 15, 20, 25], [5, 11, 16, 21, 26], [11, 17, 22, 27], [17, 23, 28], // Diagonals
-    [4, 11], [3, 10, 17], [2, 9, 16, 23], [1, 8, 15, 22, 29], [0, 7, 14, 21, 28], [6, 13, 20, 27], [12, 19, 26], [18, 25] // Other conditions
-];
+    // Define win conditions for a 5x6 grid
+    let winConditions = [
+        [0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15, 16, 17], [18, 19, 20, 21, 22, 23], [24, 25, 26, 27, 28, 29],
+        [0, 6, 12, 18, 24], [1, 7, 13, 19, 25], [2, 8, 14, 20, 26], [3, 9, 15, 21, 27], [4, 10, 16, 22, 28], [5, 11, 17, 23, 29],
+        [1, 6], [2, 7, 12], [3, 8, 13, 18], [4, 9, 14, 19, 24], [5, 10, 15, 20, 25], [11, 16, 21, 26], [17, 22, 27], [23, 28],
+        [4, 11], [3, 10, 17], [2, 9, 16, 23], [1, 8, 15, 22, 29], [0, 7, 14, 21, 28], [6, 13, 20, 27], [12, 19, 26], [18, 25]
+    ];
+
     const urlParams = new URLSearchParams(window.location.search);
     difficulty = urlParams.get('difficulty');
 
@@ -30,12 +31,13 @@ let winConditions = [
     boxes.forEach(e => {
         e.innerHTML = "";
         e.addEventListener("click", () => {
-            if (!isGameOver && e.innerHTML === "") {
+            if (!isGameOver && e.innerHTML === "" && turn === "X") {
                 e.innerHTML = turn;
+                board[e.dataset.index] = 'X';
                 Win();
                 Draw();
                 Turns();
-                if (!isGameOver && turn !== "X") {
+                if (!isGameOver) {
                     setTimeout(aiMove, 800);
                 }
             }
@@ -62,6 +64,7 @@ let winConditions = [
             Turns();
         }
     }
+
 
     function easyAIMove() {
         let emptyIndices = [];
@@ -162,15 +165,9 @@ let winConditions = [
 
     function Draw() {
         if (!isGameOver) {
-            let isDraw = true;
-            boxes.forEach(e => {
-                if (e.innerHTML === "") isDraw = false;
-            });
-
+            let isDraw = board.every(cell => cell !== '');
             if (isDraw) {
-                hide();
-		document.querySelector(".buttons").style.display = "flex";
-                document.querySelector("#results").innerHTML = "Draw";
+                endGame("Draw");
             }
         }
     }
