@@ -94,8 +94,8 @@ function findStrategicMove() {
         let values = winConditions[i].map(index => boxes[index].innerHTML);
         let emptyIndex = winConditions[i].find(index => boxes[index].innerHTML === "");
 
-        // Prioritize making two in a row (potential win)
-        if (values.filter(value => value === "O").length === 2 && emptyIndex !== undefined) {
+        // Prioritize blocking opponent from winning
+        if (values.filter(value => value === "X").length === 2 && emptyIndex !== undefined) {
             return emptyIndex;
         }
     }
