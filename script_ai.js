@@ -89,17 +89,27 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 
 function findStrategicMove() {
-    // Implement your strategic move logic here
-    // You can customize this function based on your desired strategy
-    // For example, prioritize center and corners
-    const strategicIndices = [14, 12, 16, 10, 18];
-    let availableStrategicIndices = strategicIndices.filter(index => boxes[index].innerHTML === "");
-    
-    if (availableStrategicIndices.length > 0) {
-        return availableStrategicIndices[0];
-    } else {
-        return -1; // No strategic move found
+    // Prioritize the center
+    if (boxes[14].innerHTML === "") {
+        return 14;
     }
+
+    // If center is occupied, prioritize corners
+    const cornerIndices = [12, 10, 16, 18];
+    let availableCornerIndices = cornerIndices.filter(index => boxes[index].innerHTML === "");
+
+    if (availableCornerIndices.length > 0) {
+        return availableCornerIndices[0];
+    }
+
+    // If center and corners are occupied, choose the first available empty cell
+    for (let i = 0; i < boxes.length; i++) {
+        if (boxes[i].innerHTML === "") {
+            return i;
+        }
+    }
+
+    return -1; // No strategic move found
 }
 
     function expertAIMove() {
