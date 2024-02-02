@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Block opponent's winning move if possible
         boxes[blockingMoveIndex].innerHTML = "O";
     } else {
-        // If no winning or blocking move, make a strategic move
+        // If no winning or blocking move, make a strategic move based on the provided win conditions
         let strategicMoveIndex = findStrategicMove();
         if (strategicMoveIndex !== -1) {
             boxes[strategicMoveIndex].innerHTML = "O";
@@ -89,23 +89,14 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 
 function findStrategicMove() {
-    // Prioritize the center
-    if (boxes[14].innerHTML === "") {
-        return 14;
-    }
+    // Iterate through win conditions to find strategic moves
+    for (let i = 0; i < winConditions.length; i++) {
+        let values = winConditions[i].map(index => boxes[index].innerHTML);
+        let emptyIndex = winConditions[i].find(index => boxes[index].innerHTML === "");
 
-    // If center is occupied, prioritize corners
-    const cornerIndices = [12, 10, 16, 18];
-    let availableCornerIndices = cornerIndices.filter(index => boxes[index].innerHTML === "");
-
-    if (availableCornerIndices.length > 0) {
-        return availableCornerIndices[0];
-    }
-
-    // If center and corners are occupied, choose the first available empty cell
-    for (let i = 0; i < boxes.length; i++) {
-        if (boxes[i].innerHTML === "") {
-            return i;
+        // Prioritize making two in a row (potential win)
+        if (values.filter(value => value === "O").length === 2 && emptyIndex !== undefined) {
+            return emptyIndex;
         }
     }
 
