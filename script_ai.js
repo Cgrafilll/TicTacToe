@@ -66,24 +66,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function difficultAIMove() {
-    let winningMoveIndex = findWinningMove("O");
-    let opponentTurn = turn === "X" ? "O" : "X";
-    let blockingMoveIndex = findBlockingMove(opponentTurn);
+    // Check if the AI can win in the next move
+    let winningMove = findWinningMove("O");
 
-    if (winningMoveIndex !== -1) {
-        // Make a winning move if possible
-        boxes[winningMoveIndex].innerHTML = "O";
-    } else if (blockingMoveIndex !== -1) {
-        // Block opponent's winning move if possible
-        boxes[blockingMoveIndex].innerHTML = "O";
+    if (winningMove !== -1) {
+        boxes[winningMove].innerHTML = "O";
     } else {
-        // If no winning or blocking move, make a strategic move based on the provided win conditions
-        let strategicMoveIndex = findStrategicMove();
-        if (strategicMoveIndex !== -1) {
-            boxes[strategicMoveIndex].innerHTML = "O";
+        // If no winning move, check if opponent can win and block
+        let blockingMove = findBlockingMove("X");
+
+        if (blockingMove !== -1) {
+            boxes[blockingMove].innerHTML = "O";
         } else {
-            // If no strategic move is found, resort to a random move
-            easyAIMove();
+            // If no winning or blocking moves, prioritize strategic moves
+            let strategicMove = findStrategicMove();
+
+            if (strategicMove !== -1) {
+                boxes[strategicMove].innerHTML = "O";
+            } else {
+                // If none of the above, choose a random unclicked position
+                easyAIMove();
+            }
         }
     }
 }
