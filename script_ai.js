@@ -45,25 +45,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function aiMove() {
-        if (!isGameOver) {
-            switch (difficulty) {
-                case "easy":
-                    easyAIMove();
-                    break;
-                case "difficult":
-                    difficultAIMove();
-                    break;
-                case "expert":
-                    expertAIMove();
-                    break;
-                default:
-                    break;
-            }
-            Win();
-            Draw();
-            Turns();
+    if (!isGameOver && turn === "O") {
+        switch (difficulty) {
+            case "easy":
+                easyAIMove();
+                break;
+            case "difficult":
+                difficultAIMove();
+                break;
+            case "expert":
+                expertAIMove();
+                break;
+            default:
+                break;
         }
+        Win();
+        Draw();
+        Turns();
     }
+}
 
 
     function easyAIMove() {
