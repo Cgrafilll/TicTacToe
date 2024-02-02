@@ -66,66 +66,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function difficultAIMove() {
-    let opponentTurn = turn === "X" ? "O" : "X";
-    let blockIndex = findBlockingMove(opponentTurn);
+        let opponentTurn = turn === "X" ? "O" : "X";
+        let blockIndex = findBlockingMove(opponentTurn);
 
-    if (blockIndex !== -1) {
-        boxes[blockIndex].innerHTML = turn;
-        button_states[blockIndex] = turn;
-    } else {
+        if (blockIndex !== -1) {
+            boxes[blockIndex].innerHTML = "O";
+        } else {
+            easyAIMove();
+        }
+    }
+
+    function expertAIMove() {
         let winIndex = findWinningMove(turn);
+        let blockIndex = findBlockingMove(turn);
 
         if (winIndex !== -1) {
             boxes[winIndex].innerHTML = turn;
-            button_states[winIndex] = turn;
+        } else if (blockIndex !== -1) {
+            boxes[blockIndex].innerHTML = turn;
         } else {
-            let strategicMove = findStrategicMove();
-            boxes[strategicMove].innerHTML = turn;
-            button_states[strategicMove] = turn;
+            easyAIMove();
         }
     }
-}
-
-
-function expertAIMove() {
-    let opponentTurn = turn === "X" ? "O" : "X";
-    let blockIndex = findBlockingMove(opponentTurn);
-
-    if (blockIndex !== -1) {
-        boxes[blockIndex].innerHTML = "O";
-        button_states[blockIndex] = "O";
-    } else {
-        let winIndex = findWinningMove("O");
-
-        if (winIndex !== -1) {
-            boxes[winIndex].innerHTML = "O";
-            button_states[winIndex] = "O";
-        } else {
-            let strategicMove = findStrategicMove();
-            boxes[strategicMove].innerHTML = "O";
-            button_states[strategicMove] = "O";
-        }
-    }
-}
-// New function to find strategic move (prioritize center and corners)
-function findStrategicMove() {
-    const centerAndCorners = [14, 12, 16, 10, 18];
-    let availableCenterAndCorners = centerAndCorners.filter(index => boxes[index].innerHTML === "");
-
-    if (availableCenterAndCorners.length > 0) {
-        return availableCenterAndCorners[0];
-    }
-
-    // If center and corners are taken, choose a random available position
-    let emptyIndices = [];
-    for (let i = 0; i < boxes.length; i++) {
-        if (boxes[i].innerHTML === "") {
-            emptyIndices.push(i);
-        }
-    }
-    let randomIndex = Math.floor(Math.random() * emptyIndices.length);
-    return emptyIndices[randomIndex];
-}
 
     function findWinningMove(player) {
         for (let i = 0; i < winConditions.length; i++) {
