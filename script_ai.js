@@ -6,14 +6,20 @@ document.addEventListener("DOMContentLoaded", function () {
     let playerOWins = 0;
     let difficulty = "";
 
-    // Define win conditions
-    let winConditions = [
-        [0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15, 16, 17], [18, 19, 20, 21, 22, 23], [24, 25, 26, 27, 28, 29],
-        [0, 6, 12, 18, 24], [1, 7, 13, 19, 25], [2, 8, 14, 20, 26], [3, 9, 15, 21, 27], [4, 10, 16, 22, 28], [5, 11, 17, 23, 29],
-        [1, 6], [2, 7, 12], [3, 8, 13, 18], [4, 9, 14, 19, 24], [5, 10, 15, 20, 25], [11, 16, 21, 26], [17, 22, 27], [23, 28],
-        [4, 11], [3, 10, 17], [2, 9, 16, 23], [1, 8, 15, 22, 29], [0, 7, 14, 21, 28], [6, 13, 20, 27], [12, 19, 26], [18, 25]
-    ];
+// Initialize empty game board (5x6)
+let board = ['', '', '', '', '',
+             '', '', '', '', '',
+             '', '', '', '', '',
+             '', '', '', '', '',
+             '', '', '', '', ''];
 
+// Define win conditions for a 5x6 grid
+let winConditions = [
+    [0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14], [15, 16, 17, 18, 19], [20, 21, 22, 23, 24], [25, 26, 27, 28, 29], // Rows
+    [0, 5, 10, 15, 20], [1, 6, 11, 16, 21], [2, 7, 12, 17, 22], [3, 8, 13, 18, 23], [4, 9, 14, 19, 24], [5, 10, 15, 20, 25], [6, 11, 16, 21, 26], [7, 12, 17, 22, 27], [8, 13, 18, 23, 28], [9, 14, 19, 24, 29], // Columns
+    [0, 6], [1, 7, 12], [2, 8, 13, 18], [3, 9, 14, 19, 24], [4, 10, 15, 20, 25], [5, 11, 16, 21, 26], [11, 17, 22, 27], [17, 23, 28], // Diagonals
+    [4, 11], [3, 10, 17], [2, 9, 16, 23], [1, 8, 15, 22, 29], [0, 7, 14, 21, 28], [6, 13, 20, 27], [12, 19, 26], [18, 25] // Other conditions
+];
     const urlParams = new URLSearchParams(window.location.search);
     difficulty = urlParams.get('difficulty');
 
@@ -58,36 +64,84 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function easyAIMove() {
-        let emptyBoxes = Array.from(boxes).filter(box => box.innerHTML === "");
-        if (emptyBoxes.length > 0) {
-            let randomIndex = Math.floor(Math.random() * emptyBoxes.length);
-            emptyBoxes[randomIndex].innerHTML = "O";
+        let emptyIndices = [];
+        // Find empty positions on the board
+        for (let i = 0; i < board.length; i++) {
+            if (board[i] === '') {
+                emptyIndices.push(i);
+            }
         }
+        // Choose a random empty position
+        let randomIndex = Math.floor(Math.random() * emptyIndices.length);
+        let moveIndex = emptyIndices[randomIndex];
+        board[moveIndex] = 'O';
     }
+    
 
     function difficultAIMove() {
-        let opponentTurn = turn === "X" ? "O" : "X";
-        let blockIndex = findBlockingMove(opponentTurn);
-
-        if (blockIndex !== -1) {
-            boxes[blockIndex].innerHTML = "O";
-        } else {
-            easyAIMove();
+        let opponent = 'X'; // Human player
+        let emptyIndices = [];
+        // Find empty positions on the board
+        for (let i = 0; i < board.length; i++) {
+            if (board[i] === '') {
+                emptyIndices.push(i);
+            }
         }
+        // Check if AI can win in next move
+        for (let index of emptyIndices) {
+            let tempBoard = [...board];
+            tempBoard[index] = 'O';
+            if (checkWin('O', tempBoard)) {
+                board[index] = 'O';
+                return;
+            }
+        }
+        // Check if opponent can win in next move and block
+        for (let index of emptyIndices) {
+            let tempBoard = [...board];
+            tempBoard[index] = opponent;
+            if (checkWin(opponent, tempBoard)) {
+                board[index] = 'O';
+                return;
+            }
+        }
+        // If no winning or blocking moves, choose random empty position
+        let randomIndex = Math.floor(Math.random() * emptyIndices.length);
+        let moveIndex = emptyIndices[randomIndex];
+        board[moveIndex] = 'O';
     }
 
     function expertAIMove() {
-        let winIndex = findWinningMove(turn);
-        let blockIndex = findBlockingMove(turn);
-
-        if (winIndex !== -1) {
-            boxes[winIndex].innerHTML = turn;
-        } else if (blockIndex !== -1) {
-            boxes[blockIndex].innerHTML = turn;
-        } else {
-            easyAIMove();
+        let emptyIndices = [];
+        // Find empty positions on the board
+        for (let i = 0; i < board.length; i++) {
+            if (board[i] === '') {
+                emptyIndices.push(i);
+            }
         }
-    }
+        // Check if AI can win in next move
+        for (let index of emptyIndices) {
+            let tempBoard = [...board];
+            tempBoard[index] = 'O';
+            if (checkWin('O', tempBoard)) {
+                board[index] = 'O';
+                return;
+            }
+        }
+        // Check if opponent can win in next move and block
+        for (let index of emptyIndices) {
+            let tempBoard = [...board];
+            tempBoard[index] = 'X'; // Assume opponent's move
+            if (checkWin('X', tempBoard)) {
+                board[index] = 'O';
+                return;
+            }
+        }
+        // Make a strategic move
+        // For the 5x6 grid, prioritize center and edges
+        let centerIndex = Math.floor(board.length / 2);
+        if (board[centerIndex] === '') { // Center position
+            board[centerIndex] = 'O';
 
     function findWinningMove(player) {
         for (let i = 0; i < winConditions.length; i++) {
@@ -200,4 +254,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#quit").addEventListener("click", () => {
         window.location.href = "opponent.html";
     });
-});
+        }
+    }
+}
+
+)
