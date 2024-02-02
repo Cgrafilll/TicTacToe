@@ -79,64 +79,95 @@ let winConditions = [
     
 
     function difficultAIMove() {
-        let opponent = 'X'; // Human player
-        let emptyIndices = [];
-        // Find empty positions on the board
-        for (let i = 0; i < board.length; i++) {
-            if (board[i] === '') {
-                emptyIndices.push(i);
-            }
+    let opponent = 'X'; // Human player
+    let emptyIndices = [];
+
+    // Find empty positions on the board
+    for (let i = 0; i < board.length; i++) {
+        if (board[i] === '') {
+            emptyIndices.push(i);
         }
-        // Check if AI can win in next move
-        for (let index of emptyIndices) {
-            let tempBoard = [...board];
-            tempBoard[index] = 'O';
-            if (checkWin('O', tempBoard)) {
-                board[index] = 'O';
-                return;
-            }
-        }
-        // Check if opponent can win in next move and block
-        for (let index of emptyIndices) {
-            let tempBoard = [...board];
-            tempBoard[index] = opponent;
-            if (checkWin(opponent, tempBoard)) {
-                board[index] = 'O';
-                return;
-            }
-        }
-        // If no winning or blocking moves, choose random empty position
-        let randomIndex = Math.floor(Math.random() * emptyIndices.length);
-        let moveIndex = emptyIndices[randomIndex];
-        board[moveIndex] = 'O';
     }
 
-    function expertAIMove() {
-        let emptyIndices = [];
-        // Find empty positions on the board
-        for (let i = 0; i < board.length; i++) {
-            if (board[i] === '') {
-                emptyIndices.push(i);
-            }
+    // Check if AI can win in the next move
+    for (let index of emptyIndices) {
+        let tempBoard = [...board];
+        tempBoard[index] = 'O';
+        if (checkWin('O', tempBoard)) {
+            board[index] = 'O';
+            return;
         }
-        // Check if AI can win in next move
-        for (let index of emptyIndices) {
-            let tempBoard = [...board];
-            tempBoard[index] = 'O';
-            if (checkWin('O', tempBoard)) {
-                board[index] = 'O';
-                return;
-            }
+    }
+
+    // Check if opponent can win in the next move and block
+    for (let index of emptyIndices) {
+        let tempBoard = [...board];
+        tempBoard[index] = opponent;
+        if (checkWin(opponent, tempBoard)) {
+            board[index] = 'O';
+            return;
         }
-        // Check if opponent can win in next move and block
-        for (let index of emptyIndices) {
-            let tempBoard = [...board];
-            tempBoard[index] = 'X'; // Assume opponent's move
-            if (checkWin('X', tempBoard)) {
-                board[index] = 'O';
-                return;
-            }
+    }
+
+    // If no winning or blocking moves, choose a random empty position
+    let randomIndex = Math.floor(Math.random() * emptyIndices.length);
+    let moveIndex = emptyIndices[randomIndex];
+    board[moveIndex] = 'O';
+}
+
+function expertAIMove() {
+    let emptyIndices = [];
+
+    // Find empty positions on the board
+    for (let i = 0; i < board.length; i++) {
+        if (board[i] === '') {
+            emptyIndices.push(i);
         }
+    }
+
+    // Check if AI can win in the next move
+    for (let index of emptyIndices) {
+        let tempBoard = [...board];
+        tempBoard[index] = 'O';
+        if (checkWin('O', tempBoard)) {
+            board[index] = 'O';
+            return;
+        }
+    }
+
+    // Check if opponent can win in the next move and block
+    for (let index of emptyIndices) {
+        let tempBoard = [...board];
+        tempBoard[index] = 'X'; // Assume opponent's move
+        if (checkWin('X', tempBoard)) {
+            board[index] = 'O';
+            return;
+        }
+    }
+
+    // Make a strategic move
+    // For the 5x6 grid, prioritize the center and edges
+    let centerIndex = Math.floor(board.length / 2);
+    if (board[centerIndex] === '') { // Center position
+        board[centerIndex] = 'O';
+        return;
+    }
+
+    // If center is taken, choose an edge
+    let edgeIndices = [1, 5, 21, 25];
+    for (let edgeIndex of edgeIndices) {
+        if (board[edgeIndex] === '') {
+            board[edgeIndex] = 'O';
+            return;
+        }
+    }
+
+    // If center and edges are taken, choose any remaining empty position
+    let randomIndex = Math.floor(Math.random() * emptyIndices.length);
+    let moveIndex = emptyIndices[randomIndex];
+    board[moveIndex] = 'O';
+}
+
         // Make a strategic move
         // For the 5x6 grid, prioritize center and edges
         let centerIndex = Math.floor(board.length / 2);
