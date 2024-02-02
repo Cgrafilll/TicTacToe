@@ -77,7 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (winIndex !== -1) {
             boxes[winIndex].innerHTML = "O";
         } else {
-            easyAIMove(); // If no strategic moves, resort to an easier AI move
+            let strategicMove = findStrategicMove();
+            boxes[strategicMove].innerHTML = "O";
         }
     }
 }
@@ -98,7 +99,7 @@ function expertAIMove() {
             if (blockIndex !== -1) {
                 boxes[blockIndex].innerHTML = "O";
             } else {
-                let winIndex = findWinningMove(turn);
+                winIndex = findWinningMove(turn);
                 if (winIndex !== -1) {
                     boxes[winIndex].innerHTML = "O";
                 } else {
@@ -109,6 +110,7 @@ function expertAIMove() {
         }
     }
 }
+
 // New function to find strategic move (prioritize center and corners)
 function findStrategicMove() {
     const centerAndCorners = [14, 12, 16, 10, 18];
