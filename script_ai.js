@@ -77,8 +77,28 @@ document.addEventListener("DOMContentLoaded", function () {
         // Block opponent's winning move if possible
         boxes[blockingMoveIndex].innerHTML = "O";
     } else {
-        // If no winning or blocking move, choose a random empty position
-        easyAIMove();
+        // If no winning or blocking move, make a strategic move
+        let strategicMoveIndex = findStrategicMove();
+        if (strategicMoveIndex !== -1) {
+            boxes[strategicMoveIndex].innerHTML = "O";
+        } else {
+            // If no strategic move is found, resort to a random move
+            easyAIMove();
+        }
+    }
+}
+
+function findStrategicMove() {
+    // Implement your strategic move logic here
+    // You can customize this function based on your desired strategy
+    // For example, prioritize center and corners
+    const strategicIndices = [14, 12, 16, 10, 18];
+    let availableStrategicIndices = strategicIndices.filter(index => boxes[index].innerHTML === "");
+    
+    if (availableStrategicIndices.length > 0) {
+        return availableStrategicIndices[0];
+    } else {
+        return -1; // No strategic move found
     }
 }
 
