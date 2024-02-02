@@ -71,14 +71,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (blockIndex !== -1) {
         boxes[blockIndex].innerHTML = "O";
+        button_states[blockIndex] = "O";
     } else {
         let winIndex = findWinningMove("O");
 
         if (winIndex !== -1) {
             boxes[winIndex].innerHTML = "O";
+            button_states[winIndex] = "O";
         } else {
             let strategicMove = findStrategicMove();
             boxes[strategicMove].innerHTML = "O";
+            button_states[strategicMove] = "O";
         }
     }
 }
@@ -89,28 +92,20 @@ function expertAIMove() {
 
     if (blockIndex !== -1) {
         boxes[blockIndex].innerHTML = "O";
+        button_states[blockIndex] = "O";
     } else {
         let winIndex = findWinningMove("O");
 
         if (winIndex !== -1) {
             boxes[winIndex].innerHTML = "O";
+            button_states[winIndex] = "O";
         } else {
-            blockIndex = findBlockingMove(turn);
-            if (blockIndex !== -1) {
-                boxes[blockIndex].innerHTML = "O";
-            } else {
-                winIndex = findWinningMove(turn);
-                if (winIndex !== -1) {
-                    boxes[winIndex].innerHTML = "O";
-                } else {
-                    let strategicMove = findStrategicMove();
-                    boxes[strategicMove].innerHTML = "O";
-                }
-            }
+            let strategicMove = findStrategicMove();
+            boxes[strategicMove].innerHTML = "O";
+            button_states[strategicMove] = "O";
         }
     }
 }
-
 // New function to find strategic move (prioritize center and corners)
 function findStrategicMove() {
     const centerAndCorners = [14, 12, 16, 10, 18];
