@@ -78,101 +78,104 @@ let winConditions = [
     }
     
 
-    function difficultAIMove() {
-    let opponent = 'X'; // Human player
-    let emptyIndices = [];
-
-    // Find empty positions on the board
-    for (let i = 0; i < board.length; i++) {
-        if (board[i] === '') {
-            emptyIndices.push(i);
-        }
-    }
+    function difficult_ai_move() {
+    let button_index = null;
+    let button_id = null;
+    let ai_button = null;
 
     // Check if AI can win in the next move
-    for (let index of emptyIndices) {
-        let tempBoard = [...board];
-        tempBoard[index] = 'O';
-        if (checkWin('O', tempBoard)) {
-            board[index] = 'O';
-            return;
+    for (let i = 0; i < winCombos.length; i++) {
+        const combo = winCombos[i];
+        const symbols = combo.map(index => button_states[index]);
+
+        if (symbols.filter(symbol => symbol === "O").length === symbols.length - 1 && symbols.includes("unclicked")) {
+            button_index = combo.find(index => button_states[index] === "unclicked");
+            break;
         }
     }
 
-    // Check if opponent can win in the next move and block
-    for (let index of emptyIndices) {
-        let tempBoard = [...board];
-        tempBoard[index] = opponent;
-        if (checkWin(opponent, tempBoard)) {
-            board[index] = 'O';
-            return;
+    // If no winning move, check if opponent can win and block
+    if (button_index === null) {
+        for (let i = 0; i < winCombos.length; i++) {
+            const combo = winCombos[i];
+            const symbols = combo.map(index => button_states[index]);
+
+            if (symbols.filter(symbol => symbol === "X").length === symbols.length - 1 && symbols.includes("unclicked")) {
+                button_index = combo.find(index => button_states[index] === "unclicked");
+                break;
+            }
         }
     }
 
-    // If no winning or blocking moves, choose a random empty position
-    let randomIndex = Math.floor(Math.random() * emptyIndices.length);
-    let moveIndex = emptyIndices[randomIndex];
-    board[moveIndex] = 'O';
+    // If no winning or blocking moves, choose a random unclicked position
+    if (button_index === null) {
+        let unclicked_indices = winCombos.flat().filter(index => button_states[index] === "unclicked");
+        button_index = unclicked_indices[Math.floor(Math.random() * unclicked_indices.length)];
+    }
+
+    button_id = "but" + button_index;
+    ai_button = document.getElementById(button_id);
+
+    if (button_states[button_index] === "unclicked") {
+        ai_button.innerHTML = turn;
+        button_states[button_index] = "O";
+    }
 }
 
-function expertAIMove() {
-    let emptyIndices = [];
-
-    // Find empty positions on the board
-    for (let i = 0; i < board.length; i++) {
-        if (board[i] === '') {
-            emptyIndices.push(i);
-        }
-    }
+function expert_ai_move() {
+    let button_index = null;
+    let button_id = null;
+    let ai_button = null;
 
     // Check if AI can win in the next move
-    for (let index of emptyIndices) {
-        let tempBoard = [...board];
-        tempBoard[index] = 'O';
-        if (checkWin('O', tempBoard)) {
-            board[index] = 'O';
-            return;
+    for (let i = 0; i < winCombos.length; i++) {
+        const combo = winCombos[i];
+        const symbols = combo.map(index => button_states[index]);
+
+        if (symbols.filter(symbol => symbol === "O").length === symbols.length - 1 && symbols.includes("unclicked")) {
+            button_index = combo.find(index => button_states[index] === "unclicked");
+            break;
         }
     }
 
-    // Check if opponent can win in the next move and block
-    for (let index of emptyIndices) {
-        let tempBoard = [...board];
-        tempBoard[index] = 'X'; // Assume opponent's move
-        if (checkWin('X', tempBoard)) {
-            board[index] = 'O';
-            return;
+    // If no winning move, check if opponent can win and block
+    if (button_index === null) {
+        for (let i = 0; i < winCombos.length; i++) {
+            const combo = winCombos[i];
+            const symbols = combo.map(index => button_states[index]);
+
+            if (symbols.filter(symbol => symbol === "X").length === symbols.length - 1 && symbols.includes("unclicked")) {
+                button_index = combo.find(index => button_states[index] === "unclicked");
+                break;
+            }
         }
     }
 
-    // Make a strategic move
-    // For the 5x6 grid, prioritize the center and edges
-    let centerIndex = Math.floor(board.length / 2);
-    if (board[centerIndex] === '') { // Center position
-        board[centerIndex] = 'O';
-        return;
-    }
+    // If no winning or blocking moves, prioritize center and corners
+    if (button_index === null) {
+        const centerAndCorners = [14, 12, 16, 10, 18];
+        const availableCenterAndCorners = centerAndCorners.filter(index => button_states[index] === "unclicked");
 
-    // If center is taken, choose an edge
-    let edgeIndices = [1, 5, 21, 25];
-    for (let edgeIndex of edgeIndices) {
-        if (board[edgeIndex] === '') {
-            board[edgeIndex] = 'O';
-            return;
+        if (availableCenterAndCorners.length > 0) {
+            button_index = availableCenterAndCorners[0];
         }
     }
 
-    // If center and edges are taken, choose any remaining empty position
-    let randomIndex = Math.floor(Math.random() * emptyIndices.length);
-    let moveIndex = emptyIndices[randomIndex];
-    board[moveIndex] = 'O';
+    // If none of the above, choose a random unclicked position
+    if (button_index === null) {
+        let unclicked_indices = winCombos.flat().filter(index => button_states[index] === "unclicked");
+        button_index = unclicked_indices[Math.floor(Math.random() * unclicked_indices.length)];
+    }
+
+    button_id = "but" + button_index;
+    ai_button = document.getElementById(button_id);
+
+    if (button_states[button_index] === "unclicked") {
+        ai_button.innerHTML = turn;
+        button_states[button_index] = "O";
+    }
 }
 
-        // Make a strategic move
-        // For the 5x6 grid, prioritize center and edges
-        let centerIndex = Math.floor(board.length / 2);
-        if (board[centerIndex] === '') { // Center position
-            board[centerIndex] = 'O';
 
     function findWinningMove(player) {
         for (let i = 0; i < winConditions.length; i++) {
