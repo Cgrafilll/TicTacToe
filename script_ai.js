@@ -94,11 +94,17 @@ function expertAIMove() {
         if (winIndex !== -1) {
             boxes[winIndex].innerHTML = "O";
         } else {
-            let centerIndex = 14; // Center of the grid
-            if (boxes[centerIndex].innerHTML === "") {
-                boxes[centerIndex].innerHTML = "O";
+            blockIndex = findBlockingMove(turn);
+            if (blockIndex !== -1) {
+                boxes[blockIndex].innerHTML = "O";
             } else {
-                difficultAIMove(); // If no strategic moves, resort to a difficult AI move
+                let winIndex = findWinningMove(turn);
+                if (winIndex !== -1) {
+                    boxes[winIndex].innerHTML = "O";
+                } else {
+                    let strategicMove = findStrategicMove();
+                    boxes[strategicMove].innerHTML = "O";
+                }
             }
         }
     }
