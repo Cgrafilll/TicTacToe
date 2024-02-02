@@ -72,9 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (blockIndex !== -1) {
         boxes[blockIndex].innerHTML = "O";
     } else {
-        // If there's no immediate blocking move, prioritize center and corners
-        let strategicMove = findStrategicMove();
-        boxes[strategicMove].innerHTML = "O";
+        expertAIMove();
     }
 }
 
@@ -85,14 +83,17 @@ function expertAIMove() {
     if (blockIndex !== -1) {
         boxes[blockIndex].innerHTML = "O";
     } else {
-        // If there's no immediate blocking move, prioritize blocking the player's winning moves
-        let blockWinIndex = findBlockingMove(turn);
-        if (blockWinIndex !== -1) {
-            boxes[blockWinIndex].innerHTML = "O";
+        let winIndex = findWinningMove("O");
+
+        if (winIndex !== -1) {
+            boxes[winIndex].innerHTML = "O";
         } else {
-            // If no blocking move, prioritize center and corners
-            let strategicMove = findStrategicMove();
-            boxes[strategicMove].innerHTML = "O";
+            let centerIndex = 14; // Center of the grid
+            if (boxes[centerIndex].innerHTML === "") {
+                boxes[centerIndex].innerHTML = "O";
+            } else {
+                easyAIMove(); // If no strategic moves, choose a random empty position
+            }
         }
     }
 }
