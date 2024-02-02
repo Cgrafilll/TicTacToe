@@ -66,58 +66,56 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function difficultAIMove() {
-    // Check if the AI can win in the next move
-    let winningMove = findWinningMove("O");
+    let opponentTurn = turn === "X" ? "O" : "X";
+    let blockIndex = findBlockingMove(opponentTurn);
 
-    if (winningMove !== -1) {
-        boxes[winningMove].innerHTML = "O";
+    if (blockIndex !== -1) {
+        boxes[blockIndex].innerHTML = "O";
     } else {
-        // If no winning move, check if opponent can win and block
-        let blockingMove = findBlockingMove("X");
+        // If there's no immediate blocking move, prioritize center and corners
+        let strategicMove = findStrategicMove();
+        boxes[strategicMove].innerHTML = "O";
+    }
+}
 
-        if (blockingMove !== -1) {
-            boxes[blockingMove].innerHTML = "O";
+function expertAIMove() {
+    let opponentTurn = turn === "X" ? "O" : "X";
+    let blockIndex = findBlockingMove(opponentTurn);
+
+    if (blockIndex !== -1) {
+        boxes[blockIndex].innerHTML = "O";
+    } else {
+        // If there's no immediate blocking move, prioritize blocking the player's winning moves
+        let blockWinIndex = findBlockingMove(turn);
+        if (blockWinIndex !== -1) {
+            boxes[blockWinIndex].innerHTML = "O";
         } else {
-            // If no winning or blocking moves, prioritize strategic moves
+            // If no blocking move, prioritize center and corners
             let strategicMove = findStrategicMove();
-
-            if (strategicMove !== -1) {
-                boxes[strategicMove].innerHTML = "O";
-            } else {
-                // If none of the above, choose a random unclicked position
-                easyAIMove();
-            }
+            boxes[strategicMove].innerHTML = "O";
         }
     }
 }
 
+// New function to find strategic move (prioritize center and corners)
 function findStrategicMove() {
-    // Iterate through win conditions to find strategic moves
-    for (let i = 0; i < winConditions.length; i++) {
-        let values = winConditions[i].map(index => boxes[index].innerHTML);
-        let emptyIndex = winConditions[i].find(index => boxes[index].innerHTML === "");
+    const centerAndCorners = [14, 12, 16, 10, 18];
+    let availableCenterAndCorners = centerAndCorners.filter(index => boxes[index].innerHTML === "");
 
-        // Prioritize blocking opponent from winning
-        if (values.filter(value => value === "X").length === 2 && emptyIndex !== undefined) {
-            return emptyIndex;
-        }
+    if (availableCenterAndCorners.length > 0) {
+        return availableCenterAndCorners[0];
     }
 
-    return -1; // No strategic move found
+    // If center and corners are taken, choose a random available position
+    let emptyIndices = [];
+    for (let i = 0; i < boxes.length; i++) {
+        if (boxes[i].innerHTML === "") {
+            emptyIndices.push(i);
+        }
+    }
+    let randomIndex = Math.floor(Math.random() * emptyIndices.length);
+    return emptyIndices[randomIndex];
 }
-
-    function expertAIMove() {
-        let winIndex = findWinningMove(turn);
-        let blockIndex = findBlockingMove(turn);
-
-        if (winIndex !== -1) {
-            boxes[winIndex].innerHTML = turn;
-        } else if (blockIndex !== -1) {
-            boxes[blockIndex].innerHTML = turn;
-        } else {
-            easyAIMove();
-        }
-    }
 
     function findWinningMove(player) {
         for (let i = 0; i < winConditions.length; i++) {
