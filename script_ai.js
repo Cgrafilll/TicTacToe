@@ -70,21 +70,22 @@ document.addEventListener("DOMContentLoaded", function () {
     let blockIndex = findBlockingMove(opponentTurn);
 
     if (blockIndex !== -1) {
-        boxes[blockIndex].innerHTML = "O";
-        button_states[blockIndex] = "O";
+        boxes[blockIndex].innerHTML = turn;
+        button_states[blockIndex] = turn;
     } else {
-        let winIndex = findWinningMove("O");
+        let winIndex = findWinningMove(turn);
 
         if (winIndex !== -1) {
-            boxes[winIndex].innerHTML = "O";
-            button_states[winIndex] = "O";
+            boxes[winIndex].innerHTML = turn;
+            button_states[winIndex] = turn;
         } else {
             let strategicMove = findStrategicMove();
-            boxes[strategicMove].innerHTML = "O";
-            button_states[strategicMove] = "O";
+            boxes[strategicMove].innerHTML = turn;
+            button_states[strategicMove] = turn;
         }
     }
 }
+
 
 function expertAIMove() {
     let opponentTurn = turn === "X" ? "O" : "X";
