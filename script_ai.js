@@ -14,6 +14,34 @@ document.addEventListener("DOMContentLoaded", function () {
         [4, 11], [3, 10, 17], [2, 9, 16, 23], [1, 8, 15, 22, 29], [0, 7, 14, 21, 28], [6, 13, 20, 27], [12, 19, 26], [18, 25]
     ];
 
+
+	// Handle cell click event
+function handleCellClick() {
+    if (gameOver || aiIsThinking || this.textContent !== '') return;
+
+    this.textContent = currentPlayer;
+    if (checkWinner()) {
+        highlightWinner();
+        setTimeout(() => {
+            alert(`Player ${currentPlayer} wins!`);
+            gameOver = true;
+        }, 500);
+    } else if (isBoardFull()) {
+        alert('It\'s a draw!');
+        gameOver = true;
+    } else {
+        currentPlayer = 'X'; // Ensure player is always X after their move
+
+        // Disable player's ability to click during AI's turn
+        disablePlayerClick();
+
+        // Call AI function based on difficulty
+        if (currentPlayer === 'X') {
+            difficultAI();
+        }
+    }
+}
+
     const urlParams = new URLSearchParams(window.location.search);
     difficulty = urlParams.get('difficulty');
 
@@ -36,26 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    function aiMove() {
-        if (!isGameOver) {
-            switch (difficulty) {
-                case "easy":
-                    easyAIMove();
-                    break;
-                case "difficult":
-                    difficultAIMove();
-                    break;
-                case "expert":
-                    expertAIMove();
-                    break;
-                default:
-                    break;
-            }
-            Win();
-            Draw();
-            Turns();
-        }
-    }
+
 
     function easyAIMove() {
         let emptyBoxes = Array.from(boxes).filter(box => box.innerHTML === "");
@@ -175,6 +184,45 @@ function getBlockingMove() {
     }
 
     return null;
+}
+
+	// Function to make AI move
+function makeAIMove(cell) {
+    aiIsThinking = true; // Set the flag to indicate AI is thinking
+    console.log('AI is thinking...');
+
+    setTimeout(() => {
+        if (cell) {
+            cell.textContent = 'O'; // Make sure AI is always 'O'
+            console.log('AI made a move!');
+            console.log('Checking winner after AI move...');
+            console.log('Is the board full?', isBoardFull());
+
+            if (checkWinner()) {
+                highlightWinner();
+                setTimeout(() => {
+                    alert('Player X wins!');
+                    gameOver = true;
+                }, 500);
+            } else if (isBoardFull()) {
+                alert('It\'s a draw!');
+                gameOver = true;
+            }
+        }
+
+        currentPlayer = 'X'; // Switch back to player X after AI move
+        aiIsThinking = false; // Reset the flag after AI finishes its move
+
+        // Re-enable player's ability to click after AI's turn
+        enablePlayerClick();
+    }, 500);
+}
+
+
+// Function to get a random empty cell
+function getRandomEmptyCell() {
+    const emptyCells = cells.filter(cell => cell.textContent === '');
+    return emptyCells.length > 0 ? emptyCells[Math.floor(Math.random() * emptyCells.length)] : null;
 }
 
     function Draw() {
