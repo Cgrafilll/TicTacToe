@@ -46,12 +46,15 @@ function handleCellClick() {
                     expertAI();
                 }
             }
-
-            // Re-enable player's ability to click after AI's turn
-            enablePlayerClick();
         }, 200);
+        
+        // Re-enable player's ability to click after AI's turn
+        setTimeout(() => {
+            enablePlayerClick();
+        }, 700);
     }
 }
+
 
 
     function easyAIMove() {
