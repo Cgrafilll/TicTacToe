@@ -16,26 +16,27 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     // Handle cell click event
-    function handleCellClick() {
-        if (isGameOver || aiIsThinking || this.textContent !== '') return;
+function handleCellClick() {
+    if (isGameOver || aiIsThinking || this.textContent !== '') return;
 
-        this.textContent = turn;
-        if (checkWinner()) {
-            highlightWinner();
-            setTimeout(() => {
-                alert(`Player ${turn} wins!`);
-                isGameOver = true;
-            }, 500);
-        } else if (isBoardFull()) {
-            alert('It\'s a draw!');
+    this.textContent = turn;
+    if (checkWinner()) {
+        highlightWinner();
+        setTimeout(() => {
+            alert(`Player ${turn} wins!`);
             isGameOver = true;
-        } else {
-            currentPlayer = 'X'; // Ensure player is always X after their move
+        }, 500);
+    } else if (isBoardFull()) {
+        alert('It\'s a draw!');
+        isGameOver = true;
+    } else {
+        currentPlayer = 'X'; // Ensure player is always X after their move
 
-            // Disable player's ability to click during AI's turn
-            disablePlayerClick();
+        // Disable player's ability to click during AI's turn
+        disablePlayerClick();
 
-            // Call AI function based on difficulty
+        // Call AI function based on difficulty after a short delay
+        setTimeout(() => {
             if (turn === 'X') {
                 if (difficulty === 'easy') {
                     easyAIMove();
@@ -45,8 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     expertAI();
                 }
             }
-        }
+        }, 200);
     }
+}
 
     function easyAIMove() {
         aiIsThinking = true; // Set the flag to indicate AI is thinking
