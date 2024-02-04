@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         [4, 11], [3, 10, 17], [2, 9, 16, 23], [1, 8, 15, 22, 29], [0, 7, 14, 21, 28], [6, 13, 20, 27], [12, 19, 26], [18, 25]
     ];
 
-    // Handle cell click event
+// Handle cell click event
 function handleCellClick() {
     if (isGameOver || aiIsThinking || this.textContent !== '') return;
 
@@ -46,9 +46,13 @@ function handleCellClick() {
                     expertAI();
                 }
             }
+
+            // Re-enable player's ability to click after AI's turn
+            enablePlayerClick();
         }, 200);
     }
 }
+
 
     function easyAIMove() {
         aiIsThinking = true; // Set the flag to indicate AI is thinking
