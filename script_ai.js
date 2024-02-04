@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let playerXWins = 0;
     let playerOWins = 0;
     let difficulty = "";
+    let aiIsThinking = false; // Added variable to track if AI is thinking
 
     // Define win conditions
     let winConditions = [
@@ -14,80 +15,85 @@ document.addEventListener("DOMContentLoaded", function () {
         [4, 11], [3, 10, 17], [2, 9, 16, 23], [1, 8, 15, 22, 29], [0, 7, 14, 21, 28], [6, 13, 20, 27], [12, 19, 26], [18, 25]
     ];
 
+    // Handle cell click event
+    function handleCellClick() {
+        if (isGameOver || aiIsThinking || this.textContent !== '') return;
 
-	// Handle cell click event
-function handleCellClick() {
-    if (gameOver || aiIsThinking || this.textContent !== '') return;
+        this.textContent = turn;
+        if (checkWinner()) {
+            highlightWinner();
+            setTimeout(() => {
+                alert(`Player ${turn} wins!`);
+                isGameOver = true;
+            }, 500);
+        } else if (isBoardFull()) {
+            alert('It\'s a draw!');
+            isGameOver = true;
+        } else {
+            currentPlayer = 'X'; // Ensure player is always X after their move
 
-    this.textContent = currentPlayer;
-    if (checkWinner()) {
-        highlightWinner();
-        setTimeout(() => {
-            alert(`Player ${currentPlayer} wins!`);
-            gameOver = true;
-        }, 500);
-    } else if (isBoardFull()) {
-        alert('It\'s a draw!');
-        gameOver = true;
-    } else {
-        currentPlayer = 'X'; // Ensure player is always X after their move
+            // Disable player's ability to click during AI's turn
+            disablePlayerClick();
 
-        // Disable player's ability to click during AI's turn
-        disablePlayerClick();
-
-        // Call AI function based on difficulty
-        if (currentPlayer === 'X') {
-            difficultAI();
-        }
-    }
-}
-
-    const urlParams = new URLSearchParams(window.location.search);
-    difficulty = urlParams.get('difficulty');
-
-    if (!difficulty) {
-        difficulty = "easy";
-    }
-
-    boxes.forEach(e => {
-        e.innerHTML = "";
-        e.addEventListener("click", () => {
-            if (!isGameOver && e.innerHTML === "") {
-                e.innerHTML = turn;
-                Win();
-                Draw();
-                Turns();
-                if (!isGameOver && turn !== "X") {
-                    setTimeout(aiMove, 800);
+            // Call AI function based on difficulty
+            if (turn === 'X') {
+                if (difficulty === 'easy') {
+                    easyAIMove();
+                } else if (difficulty === 'difficult') {
+                    difficultAI();
+                } else if (difficulty === 'expert') {
+                    expertAI();
                 }
             }
-        });
-    });
-
-
+        }
+    }
 
     function easyAIMove() {
-        let emptyBoxes = Array.from(boxes).filter(box => box.innerHTML === "");
-        if (emptyBoxes.length > 0) {
-            let randomIndex = Math.floor(Math.random() * emptyBoxes.length);
-            emptyBoxes[randomIndex].innerHTML = "O";
-        }
+        aiIsThinking = true; // Set the flag to indicate AI is thinking
+
+        setTimeout(() => {
+            const emptyBoxes = Array.from(boxes).filter(box => box.innerHTML === "");
+            if (emptyBoxes.length > 0) {
+                const randomIndex = Math.floor(Math.random() * emptyBoxes.length);
+                emptyBoxes[randomIndex].innerHTML = "O";
+            }
+
+            aiIsThinking = false; // Reset the flag after AI finishes its move
+
+            // Re-enable player's ability to click after AI's turn
+            enablePlayerClick();
+        }, 500);
     }
 
-    function difficultAIMove() {
-        let opponentTurn = turn === "X" ? "O" : "X";
-        let blockIndex = findBlockingMove(opponentTurn);
+    function difficultAI() {
+        aiIsThinking = true; // Set the flag to indicate AI is thinking
 
-        if (blockIndex !== -1) {
-            boxes[blockIndex].innerHTML = "O";
-        } else {
-            easyAIMove();
-        }
+        setTimeout(() => {
+            const emptyBoxes = Array.from(boxes).filter(box => box.innerHTML === "");
+            if (emptyBoxes.length > 0) {
+                const randomIndex = Math.floor(Math.random() * emptyBoxes.length);
+                emptyBoxes[randomIndex].innerHTML = "O";
+            }
+
+            aiIsThinking = false; // Reset the flag after AI finishes its move
+
+            // Re-enable player's ability to click after AI's turn
+            enablePlayerClick();
+        }, 500);
     }
 
-    // Expert AI: Make a move considering all winning conditions and blocking player
-function expertAI() {
+    function expertAI() {
+        aiIsThinking = true; // Set the flag to indicate AI is thinking
+
+        setTimeout(() => {
     const emptyCells = cells.filter(cell => cell.textContent === '');
+		 aiIsThinking = false; // Reset the flag after AI finishes its move
+
+            // Re-enable player's ability to click after AI's turn
+            enablePlayerClick();
+        }, 500);
+    }
+
 
     // Check for a winning move for the AI
     const winningMove = getWinningMove('O');
@@ -318,5 +324,7 @@ function getRandomEmptyCell() {
     document.querySelector("#play-again").addEventListener("click", resetGame);
     document.querySelector("#quit").addEventListener("click", () => {
         window.location.href = "opponent.html";
+    });
+});
     });
 });
