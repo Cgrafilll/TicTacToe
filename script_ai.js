@@ -76,35 +76,106 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function expertAIMove() {
-        let winIndex = findWinningMove(turn);
-        let blockIndex = findBlockingMove(turn);
+    // Expert AI: Make a move considering all winning conditions and blocking player
+function expertAI() {
+    const emptyCells = cells.filter(cell => cell.textContent === '');
 
-        if (winIndex !== -1) {
-            boxes[winIndex].innerHTML = turn;
-        } else if (blockIndex !== -1) {
-            boxes[blockIndex].innerHTML = turn;
+    // Check for a winning move for the AI
+    const winningMove = getWinningMove('O');
+
+    if (winningMove) {
+        makeAIMove(winningMove);
+    } else {
+        // If no winning move, block the player
+        const blockingMove = getBlockingMove();
+
+        if (blockingMove) {
+            makeAIMove(blockingMove);
         } else {
-            easyAIMove();
-        }
-    }
-
-    function findWinningMove(player) {
-        for (let i = 0; i < winConditions.length; i++) {
-            let values = winConditions[i].map(index => boxes[index].innerHTML);
-            let emptyIndex = winConditions[i].find(index => boxes[index].innerHTML === "");
-
-            if (values.filter(value => value === player).length === 2 && emptyIndex !== undefined) {
-                return emptyIndex;
+            // If no winning move or block, use a random empty cell
+            const randomMove = getRandomEmptyCell();
+            
+            if (randomMove) {
+                makeAIMove(randomMove);
             }
         }
-        return -1;
+    }
+}
+
+// Function to get a winning move for the specified player with lower priority
+function getWinningMove(player) {
+    // Check if there are blocking moves available
+    const blockingMove = getBlockingMove();
+    if (blockingMove !== null) {
+        return null;  // Return null to prioritize blocking moves
     }
 
-    function findBlockingMove(player) {
-        let opponent = player === "X" ? "O" : "X";
-        return findWinningMove(opponent);
+    // Continue with the original logic to find winning moves
+    for (const condition of winConditions) {
+        const line = condition.map(index => cells[index].textContent);
+
+        if (line.filter(symbol => symbol === player).length >= 2 && line.includes('')) {
+            const emptyIndex = line.findIndex(symbol => symbol === '');
+            return cells[condition[emptyIndex]];
+        }
     }
+
+    return null;
+}
+
+
+// Function to get a blocking move to prevent the player from winning
+function getBlockingMove() {
+    const player = 'X'; // Player symbol
+
+    // Prioritize blocking player wins in corners
+    const cornerWinConditions = [
+        [1, 6],
+        [4, 11],
+        [18, 25],
+        [23, 28],
+    ];
+
+    // First, check if the AI can block the player's win in the corners
+    for (const cornerCondition of cornerWinConditions) {
+        const line = cornerCondition.map(index => cells[index].textContent);
+        const playerCount = line.filter(symbol => symbol === player).length;
+        const emptyCount = line.filter(symbol => symbol === '').length;
+
+        if (playerCount === 1 && emptyCount === 1 && line.includes('')) {
+            const emptyIndex = line.findIndex(symbol => symbol === '');
+            return cells[cornerCondition[emptyIndex]];
+        }
+    }
+
+    // Next, prioritize blocking player potential wins in the next move
+    for (const condition of winConditions) {
+        const line = condition.map(index => cells[index].textContent);
+        const playerCount = line.filter(symbol => symbol === player).length;
+        const aiCount = line.filter(symbol => symbol === 'O').length;
+        const emptyCount = line.filter(symbol => symbol === '').length;
+
+        if (playerCount === 2 && emptyCount === 1 && aiCount === 0) {
+            const emptyIndex = line.findIndex(symbol => symbol === '');
+            return cells[condition[emptyIndex]];
+        }
+    }
+
+    // If all else fails, prioritize blocking player's potential wins
+    for (const condition of winConditions) {
+        const line = condition.map(index => cells[index].textContent);
+        const playerCount = line.filter(symbol => symbol === player).length;
+        const aiCount = line.filter(symbol => symbol === 'O').length;
+        const emptyCount = line.filter(symbol => symbol === '').length;
+
+        if (emptyCount === 1 && aiCount === 0) {
+            const emptyIndex = line.findIndex(symbol => symbol === '');
+            return cells[condition[emptyIndex]];
+        }
+    }
+
+    return null;
+}
 
     function Draw() {
         if (!isGameOver) {
