@@ -13,19 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-// Create the Tic Tac Toe board
-for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 6; j++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell');
-        cell.dataset.row = i;
-        cell.dataset.col = j;
-        cell.addEventListener('click', handleCellClick);
-        cells.push(cell);
-        board.appendChild(cell);
-    }
-}
-
 // Modified winning conditions for a 5x6 board
 let winConditions = [
         [0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15, 16, 17], [18, 19, 20, 21, 22, 23], [24, 25, 26, 27, 28, 29],
