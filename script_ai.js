@@ -1,108 +1,166 @@
 document.addEventListener("DOMContentLoaded", function () {
     let boxes = document.querySelectorAll(".box");
-    let turn = "X";
+    const board = document.getElementById('board');
+    const cells = [];
+    let currentPlayer = 'X';
     let isGameOver = false;
     let playerXWins = 0;
     let playerOWins = 0;
     let difficulty = "";
     let aiIsThinking = false; // Added variable to track if AI is thinking
 
-    // Define win conditions
-    let winConditions = [
+
+
+
+
+// Create the Tic Tac Toe board
+for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 6; j++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.row = i;
+        cell.dataset.col = j;
+        cell.addEventListener('click', handleCellClick);
+        cells.push(cell);
+        board.appendChild(cell);
+    }
+}
+
+// Modified winning conditions for a 5x6 board
+let winConditions = [
         [0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15, 16, 17], [18, 19, 20, 21, 22, 23], [24, 25, 26, 27, 28, 29],
         [0, 6, 12, 18, 24], [1, 7, 13, 19, 25], [2, 8, 14, 20, 26], [3, 9, 15, 21, 27], [4, 10, 16, 22, 28], [5, 11, 17, 23, 29],
         [1, 6], [2, 7, 12], [3, 8, 13, 18], [4, 9, 14, 19, 24], [5, 10, 15, 20, 25], [11, 16, 21, 26], [17, 22, 27], [23, 28],
         [4, 11], [3, 10, 17], [2, 9, 16, 23], [1, 8, 15, 22, 29], [0, 7, 14, 21, 28], [6, 13, 20, 27], [12, 19, 26], [18, 25]
-    ];
+    // Diagonal winning conditions
+    // Add more custom winning conditions as needed
+];
 
 // Handle cell click event
 function handleCellClick() {
-    if (isGameOver || aiIsThinking || this.textContent !== '') return;
+    if (gameOver || aiIsThinking || this.textContent !== '') return;
 
-    this.textContent = turn;
+    this.textContent = currentPlayer;
     if (checkWinner()) {
         highlightWinner();
         setTimeout(() => {
-            alert(`Player ${turn} wins!`);
-            isGameOver = true;
+            alert(`Player ${currentPlayer} wins!`);
+            gameOver = true;
         }, 500);
     } else if (isBoardFull()) {
         alert('It\'s a draw!');
-        isGameOver = true;
+        gameOver = true;
     } else {
         currentPlayer = 'X'; // Ensure player is always X after their move
 
         // Disable player's ability to click during AI's turn
         disablePlayerClick();
 
-        // Call AI function based on difficulty after a short delay
-        setTimeout(() => {
-            if (turn === 'X') {
-                if (difficulty === 'easy') {
-                    easyAIMove();
-                } else if (difficulty === 'difficult') {
-                    difficultAI();
-                } else if (difficulty === 'expert') {
-                    expertAI();
-                }
+        // Call AI function based on difficulty
+        if (currentPlayer === 'X') {
+            difficultAI();
+        }
+    }
+}
+
+// Function to disable player's ability to click during AI's turn
+function disablePlayerClick() {
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.removeEventListener('click', handleCellClick);
+    });
+}
+
+// Function to re-enable player's ability to click after AI's turn
+function enablePlayerClick() {
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.addEventListener('click', handleCellClick);
+    });
+}
+
+// Easy AI: Makes a random move
+function easyAI() {
+    aiIsThinking = true;
+    setTimeout(() => {
+        makeAIMove(getRandomEmptyCell());
+        aiIsThinking = false;
+        enablePlayerClick();
+    }, 500);
+}
+
+
+
+
+// Function to check if all corner moves are blocked
+function areAllCornerMovesBlocked() {
+    const player = 'X'; // Player symbol
+
+    const cornerWinConditions = [
+        [1, 6],
+        [4, 11],
+        [18, 25],
+        [23, 28],
+    ];
+
+    for (const cornerCondition of cornerWinConditions) {
+        const line = cornerCondition.map(index => cells[index].textContent);
+        const playerCount = line.filter(symbol => symbol === player).length;
+        const emptyCount = line.filter(symbol => symbol === '').length;
+
+        if (playerCount === 1 && emptyCount === 1) {
+            return false; // At least one corner move is available to block
+        }
+    }
+
+    return true; // All corner moves are blocked
+}
+
+// Expert AI: Make a move considering all winning conditions and blocking player
+function difficultAI() {
+    // Check if all corner moves are blocked, then focus on winning moves
+    const cornerMovesBlocked = areAllCornerMovesBlocked();
+
+    if (cornerMovesBlocked) {
+        console.log("All corner moves are blocked. Focusing on winning moves.");
+
+        const winningMove = getWinningMove('O');
+
+        if (winningMove) {
+            console.log("Found winning move.");
+            makeAIMove(winningMove);
+        } else {
+            console.log("No winning move found. Making a random move.");
+            // If no winning move, use a random empty cell
+            const randomMove = getRandomEmptyCell();
+
+            if (randomMove) {
+                makeAIMove(randomMove);
             }
-        }, 200);
-        
-        // Re-enable player's ability to click after AI's turn
-        setTimeout(() => {
-            enablePlayerClick();
-        }, 700);
+        }
+    } else {
+        console.log("Not all corner moves are blocked. Continuing to block moves.");
+        // If not all corners are blocked, continue blocking
+        const cornerBlockingMove = getBlockingMove(true);
+
+        if (cornerBlockingMove) {
+            console.log("Found blocking move.");
+            makeAIMove(cornerBlockingMove);
+        } else {
+            console.log("No blocking move found. Making a random move.");
+            // If no corner move to block, use a random empty cell
+            const randomMove = getRandomEmptyCell();
+
+            if (randomMove) {
+                makeAIMove(randomMove);
+            }
+        }
     }
 }
 
 
 
-    function easyAIMove() {
-        aiIsThinking = true; // Set the flag to indicate AI is thinking
-
-        setTimeout(() => {
-            const emptyBoxes = Array.from(boxes).filter(box => box.innerHTML === "");
-            if (emptyBoxes.length > 0) {
-                const randomIndex = Math.floor(Math.random() * emptyBoxes.length);
-                emptyBoxes[randomIndex].innerHTML = "O";
-            }
-
-            aiIsThinking = false; // Reset the flag after AI finishes its move
-
-            // Re-enable player's ability to click after AI's turn
-            enablePlayerClick();
-        }, 500);
-    }
-
-    function difficultAI() {
-        aiIsThinking = true; // Set the flag to indicate AI is thinking
-
-        setTimeout(() => {
-            const emptyBoxes = Array.from(boxes).filter(box => box.innerHTML === "");
-            if (emptyBoxes.length > 0) {
-                const randomIndex = Math.floor(Math.random() * emptyBoxes.length);
-                emptyBoxes[randomIndex].innerHTML = "O";
-            }
-
-            aiIsThinking = false; // Reset the flag after AI finishes its move
-
-            // Re-enable player's ability to click after AI's turn
-            enablePlayerClick();
-        }, 500);
-    }
-
-    function expertAI() {
-        aiIsThinking = true; // Set the flag to indicate AI is thinking
-
-        setTimeout(() => {
+// Expert AI: Make a move considering all winning conditions and blocking player
+function expertAI() {
     const emptyCells = cells.filter(cell => cell.textContent === '');
-		 aiIsThinking = false; // Reset the flag after AI finishes its move
-
-            // Re-enable player's ability to click after AI's turn
-            enablePlayerClick();
-        }, 500);
-    }
-
 
     // Check for a winning move for the AI
     const winningMove = getWinningMove('O');
@@ -201,17 +259,18 @@ function getBlockingMove() {
     return null;
 }
 
-	// Function to make AI move
+
+
+
+
+
+// Function to make AI move
 function makeAIMove(cell) {
     aiIsThinking = true; // Set the flag to indicate AI is thinking
-    console.log('AI is thinking...');
 
     setTimeout(() => {
         if (cell) {
             cell.textContent = 'O'; // Make sure AI is always 'O'
-            console.log('AI made a move!');
-            console.log('Checking winner after AI move...');
-            console.log('Is the board full?', isBoardFull());
 
             if (checkWinner()) {
                 highlightWinner();
@@ -240,79 +299,61 @@ function getRandomEmptyCell() {
     return emptyCells.length > 0 ? emptyCells[Math.floor(Math.random() * emptyCells.length)] : null;
 }
 
-    function Draw() {
-        if (!isGameOver) {
-            let isDraw = true;
-            boxes.forEach(e => {
-                if (e.innerHTML === "") isDraw = false;
-            });
+// Function to check if there is a winner
+function checkWinner() {
+    for (const condition of winConditions) {
+        const line = condition.map(index => cells[index].textContent);
+        const playerCount = line.filter(symbol => symbol === 'X').length;
+        const aiCount = line.filter(symbol => symbol === 'O').length;
 
-            if (isDraw) {
-                hide();
-		document.querySelector(".buttons").style.display = "flex";
-                document.querySelector("#results").innerHTML = "Draw";
-            }
+        // Check for player win
+        if (playerCount === line.length && aiCount === 0 && currentPlayer === 'X') {
+            highlightWinner(condition);
+            return true;
+        }
+
+        // Check for AI win
+        if (aiCount === line.length && playerCount === 0 && currentPlayer === 'O') {
+            highlightWinner(condition);
+            return true;
         }
     }
 
-    function Win() {
-        for (let i = 0; i < winConditions.length; i++) {
-            let values = winConditions[i].map(index => boxes[index].innerHTML);
-            let isWin = values.every(value => value !== "" && value === values[0]);
+    return false;
+}
 
-            if (isWin) {
-                hide();
-		document.querySelector(".buttons").style.display = "flex";
-                document.querySelector("#results").innerHTML = "Player " + turn + " wins!";
+// Check if the board is full
+function isBoardFull() {
+    return cells.every(cell => cell.textContent !== '');
+}
 
+// Function to highlight the winning combination
+function highlightWinner() {
+    for (const condition of winConditions) {
+        const line = condition.map(index => cells[index].textContent);
 
-                // Update the scores
-                if (turn === "X") {
-                    playerXWins++;
-                    document.querySelector("#player-x-count").innerHTML = playerXWins;
-                } else {
-                    playerOWins++;
-                    document.querySelector("#player-o-count").innerHTML = playerOWins;
-                }
-
-                winConditions[i].forEach(index => {
-                    boxes[index].style.backgroundColor = "#08D9D6";
-                    boxes[index].style.color = "#000";
-                });
-
-                // Check if a player has won five games
-                if (playerXWins === 5 || playerOWins === 5) {
-                    document.querySelector("#results").innerHTML =
-                    	playerXWins === 5 ? "Player X wins the game!" : "Player O wins the game!";
-		    document.querySelector(".scoreboard").style.display = "none";
-                    document.querySelector(".buttons").style.display = "flex";
-		    document.querySelector(".buttons").style.marginTop = "10px";
-                    document.querySelector("#play-again").innerHTML = "Play Again";
-
-                    // Reset the scoreboard when the game is won
-                    playerXWins = 0;
-                    playerOWins = 0;
-                    document.querySelector("#player-x-count").innerHTML = "0";
-                    document.querySelector("#player-o-count").innerHTML = "0";
-                }
-            }
+        if (line.every(cell => cell === 'X')) {
+            condition.forEach(index => cells[index].classList.add('winner'));
+            setTimeout(() => {
+                alert('Player X wins!');
+                gameOver = true;
+            }, 500);
+            return;
+        } else if (line.every(cell => cell === 'O')) {
+            condition.forEach(index => cells[index].classList.add('winner'));
+            setTimeout(() => {
+                alert('Player O wins!');
+                gameOver = true;
+            }, 500);
+            return;
         }
     }
 
-    function Turns() {
-        if (turn === "X") {
-            turn = "O";
-            document.querySelector(".bg").style.left = "150px";
-        } else {
-            turn = "X";
-            document.querySelector(".bg").style.left = "0";
-        }
+    if (isBoardFull()) {
+        alert('It\'s a draw!');
+        gameOver = true;
     }
-
-    function hide() {
-        isGameOver = true;
-        document.querySelector(".turn-container").style.display = "none";
-    }
+}
 
     function resetGame() {
         isGameOver = false;
