@@ -77,7 +77,7 @@ function checkWinner() {
             playerXWins++;
             document.querySelector("#player-x-count").innerHTML = playerXWins;
             if (playerXWins === 5) {
-                alert('Player X wins the game!');
+                alert(playerXName + ' wins the game!');
                 resetScoreboard();
             } else {
                 highlightWinner(condition, 'X');
@@ -91,7 +91,7 @@ function checkWinner() {
             playerOWins++;
             document.querySelector("#player-o-count").innerHTML = playerOWins;
             if (playerOWins === 5) {
-                alert('Player O wins the game!')
+                alert(playerOName + ' wins the game!')
                 resetScoreboard();
             } else {
                 highlightWinner(condition, 'O');
