@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xtreme Ops</title>
+    <link rel="stylesheet" href="game_ai.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-container">
+            <h1> AI DIFFICULTY</h1>
+            <ul class="button-list">
+                <li><a href="./easy" class="button">Easy</a></li>
+                <li><a href="./difficult" class="button">Difficult</a></li>
+                <li><a href="./expert" class="button">Expert</a></li>
+            </ul>
+	    </div>
+        </div>
+        <div class="main-container">
+            <div class="turn-container">
+                <div class="turn-box align">X's Turn</div>
+                <div class="turn-box align">O's Turn</div>
+                <div class="bg"></div>
+            </div>
+            <div class="main-grid">
+                <div id="board" class="grid"></div>
+            </div>
+            <div class="buttons"> 
+                <button id="play-again">Reset Board</button>
+                <button id="quit">Home</button>
+	        </div>
+        </div>    
+        <div class="right-container">
+			<h2>Scoreboard:</h2>
+            <div class="scoreboard">
+                <table>
+                    <tr>
+                        <td>
+                            <span id="player-x-name" class="player-name">Player X</span>
+                            <span id="player-x-count" class="player-score">0</span>
+                        </td>
+                        <td>
+                            <span id="player-o-name" class="player-name">Player O</span>
+                            <span id="player-o-count" class="player-score">0</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <a href="https://www.facebook.com/justinjazzM.abenir" class="link" target="_blank"><span>Abenir, Justin Jazz</span></a>
+        <a href="https://www.facebook.com/seandillinger.jayman" class="link" target="_blank"><span>Dillinger, Sean</span></a>
+        <a href="https://www.facebook.com/cgrafilll/" class="link" target="_blank"><span>Grafil, Christian</span></a>
+        <a href="https://www.facebook.com/waayneeeeee" class="link" target="_blank"><span id="F">Pineda, Lhynette</span></a>
+        <a href="https://www.facebook.com/TheListlessOne" class="link" target="_blank"><span>Verania, Archie</span></a>
+    </footer>
+    <script src="script_ai.js"></script>
+</body>
+</html>
