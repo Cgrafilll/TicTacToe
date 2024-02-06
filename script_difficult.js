@@ -330,5 +330,5 @@ function resetScoreboard() {
 
 document.querySelector("#play-again").addEventListener("click", resetBoard);
 document.querySelector("#quit").addEventListener("click", () => {
-    window.location.href = "player.html";
+    window.location.href = "index.html";
 });
