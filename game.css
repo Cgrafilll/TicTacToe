@@ -246,37 +246,35 @@ body {
 
 .scoreboard {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10px;
 }
 
-.scoreboard h2 {
-    font-size: 40px;
+.right-container h2 {
+    font-size: 3rem;
 }
 
 .scoreboard span {
     display: inline-block;
     font-weight: 700;
-    width: 100px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .player-name {
-    font-size: 20px;
+    font-size: 1.5rem;
+    margin: 10px;
 }
 
 .player-score {
-    font-size: 4rem;
-    display: flex;
-    width: 100px;
     text-align: center;
+    width: 50px;
     background-color: #FF2E63;
     color: #fff;
     padding: 10px;
+    margin: 10px;
     border-radius: 5px;
 }
 

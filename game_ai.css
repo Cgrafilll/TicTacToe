@@ -76,6 +76,33 @@ body {
     padding: 10px;
 }
 
+.vs {
+    color: #FF2E63;
+    line-height: 1.5;
+}
+
+.left-container input[type="text"] {
+    width: 70%;
+    padding: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+}
+
+.left-container h2 {
+    line-height: 10px;
+}
+
+.left-container input[type="text"]::placeholder {
+    color: #536179;
+}
+
+.left-container input[type="text"]:focus {
+    outline: none;
+    background-color: #fff;
+}
+
 .button-list {
     list-style-type: none;
     padding: 0;
@@ -99,11 +126,6 @@ body {
     cursor: pointer;
 }
 
-.button.active {
-    background-color: #FF2E63;
-    color: #fff;
-}
-  
 .button:hover {
     background-color: #FF2E63;
     color: #fff;
@@ -224,37 +246,35 @@ body {
 
 .scoreboard {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10px;
 }
 
-.scoreboard h2 {
-    font-size: 40px;
+.right-container h2 {
+    font-size: 3rem;
 }
 
 .scoreboard span {
     display: inline-block;
     font-weight: 700;
-    width: 100px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .player-name {
-    font-size: 20px;
+    font-size: 1.5rem;
+    margin: 10px;
 }
 
 .player-score {
-    font-size: 4rem;
-    display: inline-block;
-    width: 100px;
     text-align: center;
+    width: 50px;
     background-color: #FF2E63;
     color: #fff;
     padding: 10px;
+    margin: 10px;
     border-radius: 5px;
 }
 
@@ -265,6 +285,10 @@ body {
     padding: 10px;
     width: 325px;
     margin-top: 0;
+}
+
+.buttons a {
+    text-decoration: none;
 }
 
 #play-again,
