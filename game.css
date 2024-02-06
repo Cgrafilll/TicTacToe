@@ -271,7 +271,7 @@ body {
 
 .player-score {
     font-size: 4rem;
-    display: inline-block;
+    display: flex;
     width: 100px;
     text-align: center;
     background-color: #FF2E63;
