@@ -289,6 +289,10 @@ body {
     margin-top: 0;
 }
 
+.buttons a {
+    text-decoration: none;
+}
+
 #play-again,
 #quit {
     background-color: #FF2E63;
