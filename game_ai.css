@@ -81,26 +81,8 @@ body {
     line-height: 1.5;
 }
 
-.left-container input[type="text"] {
-    width: 70%;
-    padding: 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #fff;
-    color: #000;
-}
-
-.left-container h2 {
+.left-container h1 {
     line-height: 10px;
-}
-
-.left-container input[type="text"]::placeholder {
-    color: #536179;
-}
-
-.left-container input[type="text"]:focus {
-    outline: none;
-    background-color: #fff;
 }
 
 .button-list {
@@ -345,20 +327,108 @@ footer span:hover {
     text-decoration: none;
 }
 
+@media (max-width: 1400px) {
+    .button {
+        width: 200px;
+    }
+
+    .right-container h2 {
+        font-size: 2rem;
+    }
+
+    .player-name {
+        font-size: 1rem;
+    }
+    
+    .player-score {
+        width: 40px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(6, 40px);
+        grid-template-rows: repeat(5, 40px);
+    }
+
+    .cell {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .turn-container {
+        width: 150px;
+        height: 20px;
+        position: relative;
+    }
+
+    .turn-container .turn-box {
+        font-size: 0.5rem;
+    }
+    
+    .bg {
+        width: 75px;
+        height: 35px;
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
+
+    .buttons {
+        width: 200px;
+    }
+
+    #play-again,
+    #quit {
+        width: 80px;
+        font-size: 0.5rem;
+    }
+
+    .main-container img {
+        width: 50%;
+        height: 50%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .button {
+        width: 200px;
+    }
+
+    .left-container h1 {
+        font-size: 1.5rem;
+    }  
+}
+
 @media (max-width: 1150px) {
-    footer span {
-        margin: auto 30px; 
+    .container {
+        flex-direction: column;
     }
-}
 
-@media (max-width: 950px) {
-    footer span {
-        margin: auto 10px; 
-    }
-}
-
-@media (max-width: 800px) {
     footer {
         display: none;
+    }
+
+    .left-container h1 {
+        font-size: 1rem;
+    }
+
+    .button {
+        width: 100px;
+    }
+}
+
+@media (max-width: 620px) {
+    
+
+    .right-container h2 {
+        font-size: 1rem;
+    }
+
+    .player-name {
+        font-size: 0.8rem;
+    }
+    
+    .player-score {
+        width: 25px;
     }
 }

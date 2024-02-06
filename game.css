@@ -8,9 +8,9 @@
 }
 
 .align {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 body {
@@ -27,15 +27,15 @@ body {
 }
 
 @keyframes color {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .back {
@@ -67,13 +67,15 @@ body {
     padding: 30px;
 }
 
-.left-container {
+.left-container,
+.right-container,
+.main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 30vw;
     padding: 10px;
+    width: 30vw;
 }
 
 .vs {
@@ -129,15 +131,6 @@ body {
 .button:hover {
     background-color: #FF2E63;
     color: #fff;
-}
-
-.main-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 30vw;
-    padding: 10px;
 }
 
 .turn-container {
@@ -233,15 +226,6 @@ body {
 
 .winner {
     background: #08D9D6;
-}
-
-.right-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 30vw;
-    padding: 10px;
 }
 
 .scoreboard {
@@ -342,20 +326,101 @@ footer span:hover {
     text-decoration: none;
 }
 
+@media (max-width: 1500px) {
+    .left-container input[type="text"] {
+        width: 50%;
+    }
+
+    .right-container h2 {
+        font-size: 2rem;
+    }
+
+    .player-name {
+        font-size: 1rem;
+    }
+    
+    .player-score {
+        width: 40px;
+    }
+}
+
 @media (max-width: 1150px) {
-    footer span {
-        margin: auto 30px; 
+    .container {
+        flex-direction: column;
     }
-}
 
-@media (max-width: 950px) {
-    footer span {
-        margin: auto 10px; 
-    }
-}
-
-@media (max-width: 800px) {
     footer {
         display: none;
+    }
+
+    .left-container {
+        display: none;
+    }
+}
+
+@media (min-width: 950px) and (max-width: 950px) {
+    .main-container img {
+        width: 80%;
+        height: 80%;
+        position: absolute;
+    }
+}
+
+
+@media (max-width: 620px) {
+    .grid {
+        grid-template-columns: repeat(6, 40px);
+        grid-template-rows: repeat(5, 40px);
+    }
+
+    .cell {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .turn-container {
+        width: 150px;
+        height: 20px;
+        position: relative;
+    }
+
+    .turn-container .turn-box {
+        font-size: 0.5rem;
+    }
+    
+    .bg {
+        width: 75px;
+        height: 35px;
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
+
+    .buttons {
+        width: 200px;
+    }
+
+    #play-again,
+    #quit {
+        width: 80px;
+        font-size: 0.5rem;
+    }
+
+    .main-container img {
+        width: 50%;
+        height: 50%;
+    }
+
+    .right-container h2 {
+        font-size: 1rem;
+    }
+
+    .player-name {
+        font-size: 0.8rem;
+    }
+    
+    .player-score {
+        width: 25px;
     }
 }

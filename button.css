@@ -60,3 +60,27 @@ span {
     background-position: 0% 50%;
   }
 }
+
+@media (max-width: 1800px) {
+  span {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 1400px) {
+  span {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 1200px) {
+  span {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  span {
+    font-size: 10px;
+  }
+}
