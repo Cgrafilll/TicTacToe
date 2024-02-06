@@ -237,7 +237,7 @@ body {
 .scoreboard span {
     display: inline-block;
     font-weight: 700;
-    width: 100%;
+    width: 100px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -248,9 +248,9 @@ body {
 }
 
 .player-score {
+    font-size: 4rem;
     display: inline-block;
-    width: auto;
-    height: auto;
+    width: 100px;
     text-align: center;
     background-color: #FF2E63;
     color: #fff;
