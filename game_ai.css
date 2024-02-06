@@ -126,6 +126,11 @@ body {
     cursor: pointer;
 }
 
+.active {
+    background-color: #FF2E63;
+    color: #fff;
+}
+
 .button:hover {
     background-color: #FF2E63;
     color: #fff;
