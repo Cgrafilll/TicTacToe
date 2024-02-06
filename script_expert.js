@@ -327,3 +327,14 @@ document.querySelector("#play-again").addEventListener("click", resetBoard);
 document.querySelector("#quit").addEventListener("click", () => {
     window.location.href = "index.html";
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Find the back button element
+    const backButton = document.querySelector('.back i');
+
+    // Add a click event listener to the back button
+    backButton.addEventListener('click', function() {
+        // Navigate to the previous page in the browser's history
+        window.history.back();
+    });
+});

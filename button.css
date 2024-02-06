@@ -60,10 +60,3 @@ span {
     background-position: 0% 50%;
   }
 }
-
-.face:hover {
-  background: var(--clr);
-  color: var(--clr);
-  letter-spacing: 0.2em;
-  box-shadow: 0 0 35px  var(--clr);
-}
