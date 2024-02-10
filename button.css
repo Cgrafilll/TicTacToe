@@ -1,14 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 @font-face {
   font-family: myfont;
   src: url(GameOfSquids.ttf);
 }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins';
-  
+  font-family: myfont;
+  color: #fff;
+  text-decoration: none;
+  user-select: none;
 }
 
 body {
@@ -33,22 +35,35 @@ body {
   display:flex;
   align-items: center;
   justify-content: center;
-  padding:50px;
+  min-width: 80vw;
+  padding: 2em;
   position: absolute;
 }
+
 span {
-  font-size: 50px;
-  font-family: myfont;
-  text-transform: uppercase;
-  animation:blink 2s linear infinite;
-  color:#fff
-}
-@keyframes blink{
-    0%{opacity: 0;}
-    50%{opacity: .5;}
-    100%{opacity: 1}
   
+  font-size: 5vmin;
+  animation:blink 2s linear infinite;
 }
+
+@keyframes blink{
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0;
+    }
+}
+
 @keyframes color {
   0% {
     background-position: 0% 50%;
@@ -59,11 +74,4 @@ span {
   100% {
     background-position: 0% 50%;
   }
-}
-
-.face:hover {
-  background: var(--clr);
-  color: var(--clr);
-  letter-spacing: 0.2em;
-  box-shadow: 0 0 35px  var(--clr);
 }
