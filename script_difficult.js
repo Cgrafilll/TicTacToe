@@ -206,29 +206,27 @@ function getBlockingMove() {
 function makeAIMove(cell) {
     aiIsThinking = true; // Set the flag to indicate AI is thinking
 
-    setTimeout(() => {
-        if (cell) {
-            cell.textContent = 'O'; // Make sure AI is always 'O'
-            Turns();
-            if (checkWinner()) {
-                highlightWinner();
-                setTimeout(() => {
-                    alert('Player X wins!');
-                    gameOver = true;
-                }, 800);
-            } else if (isBoardFull()) {
-                alert('It\'s a Draw!')
-                resetBoard();
+    if (cell) {
+        cell.textContent = 'O'; // Make sure AI is always 'O'
+        Turns();
+        if (checkWinner()) {
+            highlightWinner();
+            setTimeout(() => {
+                alert('Player X wins!');
                 gameOver = true;
-            }
+            }, 800);
+        } else if (isBoardFull()) {
+            alert('It\'s a Draw!')
+            resetBoard();
+            gameOver = true;
         }
+    }
 
-        currentPlayer = 'X'; // Switch back to player X after AI move
-        aiIsThinking = false; // Reset the flag after AI finishes its move
+    currentPlayer = 'X'; // Switch back to player X after AI move
+    aiIsThinking = false; // Reset the flag after AI finishes its move
 
-        // Re-enable player's ability to click after AI's turn
-        enablePlayerClick();
-    }, 1000);
+    // Re-enable player's ability to click after AI's turn
+    enablePlayerClick();
 }
 
 
