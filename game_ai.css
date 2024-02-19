@@ -38,6 +38,62 @@ body {
   }
 }
 
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px; /* Add some padding for better visibility */
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: inline-block;   
+    margin-right: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 40px;
+    font-weight: 100;
+}
+
+a {
+    text-decoration: none; 
+}
+
+a:hover {
+    color: #FF2E63;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    margin-right: 2px; 
+}
+
+
+.logo {
+    position: fixed;
+    top: 0;
+    size: 30%;
+}
+
+.logo span {
+    font-size: 24px;
+}
+
 .back {
     position: absolute;
     align-items: center;
