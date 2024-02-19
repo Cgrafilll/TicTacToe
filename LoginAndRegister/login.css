@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Cookie&family=Poppins:wght@600&display=swap');
+
+:root {
+    --bg-text-shadow: 0 2px 4px rgb(13 0 77 / 8%), 0 3px 6px rgb(13 0 77 / 8%), 0 8px 16px rgb(13 0 77 / 8%);
+    --bg-box-shadow: 0px 0px 20px 6px rgb(0 0 0 / 34%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: var(--bg-text-shadow);
+}
+
+body {
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #252A34, #384051, #536179);
+    background-size: 300% 300%;
+    animation: color 10s infinite;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    text-align: center;
+}
+
+@keyframes color {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+}
+
+.title {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    margin: 120px auto;
+}
+
+.auth_container {
+    height: 110%;
+    width: 35%;
+    margin: 150px auto;
+    background-image: linear-gradient(to bottom, #5D677B, #3c4350);
+    border-radius: 20px;
+    background-size: 100% 120%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+#Log_in {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.authsection {
+    width: 80%;
+    margin: 10px;
+    display: none;
+    text-align: center;
+    animation: screen_animation .4s;
+}
+
+.user_login.active{
+    display: block;
+}
+
+.form-floating {
+    margin: 15px 0;
+} 
+
+.auth_btn {
+    padding: 15px 30px;
+    border: unset;
+    border-radius: 15px;
+    background-color: rgba(255, 129, 129, 0.842);
+    z-index: 1;
+    position: relative;
+    font-size: 17px;
+    transition: all 250ms;
+    overflow: hidden;
+}
+
+.auth_btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    z-index: -1;
+    border-radius: 10px;
+    background-image: #ff007774; 
+    transition: all 250ms
+}
+
+.auth_btn:hover {
+    color: #ffffff;
+}
+
+.auth_btn:hover::before {
+    width: 100%;
+}
+
+.footer_line{
+    margin: 20px 0;
+}
+
+.page_move_btn{
+    color: rgba(255, 82, 82, 0.599); 
+    cursor: pointer;
+}
+.page_move_btn:hover{
+    color: pink; 
+}
+
+#sign_up{
+    height: 100%;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user_signup{
+    width: 80%;
+    text-align: center;
+    animation: screen_animation .4s;
+}
+
+@keyframes screen_animation {
+    0%{
+        transform: translateX(50px);
+    }
+}
+
+@media(max-width: 30rem){
+    .carousel_section{
+        display: none;
+    }
+    #auth_section{
+        width: 100%;
+    }
+    .auth_container
+    {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    #Log_in .role_btn .btns{
+        width: 90px;
+    }
+}
