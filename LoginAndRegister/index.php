@@ -52,8 +52,8 @@ session_start();
                 ?>
                 <form class="user_login authsection active" id="userlogin" action="" method="POST">
                     <div class="form-floating">
-                        <input type="text" class="form-control" name="Username" placeholder=" ">
-                        <label for="Username">Username</label>
+                        <input typuser_logine="email" class="form-control" name="Email" placeholder=" ">
+                        <label for="Email">Email</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" name="Password" placeholder=" ">
@@ -88,7 +88,7 @@ session_start();
                             if ($result->num_rows > 0) {
                                 echo "<script>alert('Email already exist');</script>";
                             } else {
-                                $sql = "INSERT INTO user_login (Username,Email,Password) VALUES ('$lName', '$fName', '$Username', '$Email', '$Password')";
+                                $sql = "INSERT INTO user_login (fName,lName,Username,Email,Password) VALUES ('$fName', '$lName', '$Username', '$Email', '$Password')";
                                 $result = mysqli_query($conn, $sql);
     
                                 if ($result) {
