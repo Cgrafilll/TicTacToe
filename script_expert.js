@@ -101,25 +101,33 @@ function difficultAI() {
     }
 }
 
+// Define all corner winning conditions
+const cornerWinConditions = [
+    [1, 6],
+    [4, 11],
+    [18, 25],
+    [23, 28],
+];
+
 // Expert AI: Make a move considering all winning conditions and blocking player
 function expertAI() {
     const emptyCells = cells.filter(cell => cell.textContent === '');
 
-    // Check for a winning move for the AI
-    const winningMove = getWinningMove('O');
+    // Check for a blocking move
+    const blockingMove = getBlockingMove();
 
-    if (winningMove) {
-        makeAIMove(winningMove);
+    if (blockingMove) {
+        makeAIMove(blockingMove);
     } else {
-        // If no winning move, block the player
-        const blockingMove = getBlockingMove();
+        // Check for a winning move in any corner
+        const cornerWinningMove = getCornerWinningMove();
 
-        if (blockingMove) {
-            makeAIMove(blockingMove);
+        if (cornerWinningMove) {
+            makeAIMove(cornerWinningMove);
         } else {
             // If no winning move or block, use a random empty cell
             const randomMove = getRandomEmptyCell();
-            
+
             if (randomMove) {
                 makeAIMove(randomMove);
             }
@@ -127,26 +135,25 @@ function expertAI() {
     }
 }
 
-// Function to get a winning move for the specified player with lower priority
-function getWinningMove(player) {
-    // Check if there are blocking moves available
-    const blockingMove = getBlockingMove();
-    if (blockingMove !== null) {
-        return null;  // Return null to prioritize blocking moves
-    }
+// Function to get a move that wins in any corner
+function getCornerWinningMove() {
+    const ai = 'O'; // AI symbol
 
-    // Continue with the original logic to find winning moves
-    for (const condition of winConditions) {
-        const line = condition.map(index => cells[index].textContent);
+    // Check for potential winning moves based on any corner winConditions
+    for (const cornerCondition of cornerWinConditions) {
+        const line = cornerCondition.map(index => cells[index].textContent);
+        const aiCount = line.filter(symbol => symbol === ai).length;
+        const emptyCount = line.filter(symbol => symbol === '').length;
 
-        if (line.filter(symbol => symbol === player).length >= 2 && line.includes('')) {
+        if (aiCount === line.length - 1 && emptyCount === 1 && line.includes('')) {
             const emptyIndex = line.findIndex(symbol => symbol === '');
-            return cells[condition[emptyIndex]];
+            return cells[cornerCondition[emptyIndex]];
         }
     }
 
     return null;
 }
+
 
 
 // Function to get a blocking move to prevent the player from winning
@@ -206,29 +213,27 @@ function getBlockingMove() {
 function makeAIMove(cell) {
     aiIsThinking = true; // Set the flag to indicate AI is thinking
 
-    setTimeout(() => {
-        if (cell) {
-            cell.textContent = 'O'; // Make sure AI is always 'O'
-            Turns();
-            if (checkWinner()) {
-                highlightWinner();
-                setTimeout(() => {
-                    alert('Player X wins!');
-                    gameOver = true;
-                }, 800);
-            } else if (isBoardFull()) {
-                alert('It\'s a Draw!')
-                resetBoard();
+    if (cell) {
+        cell.textContent = 'O'; // Make sure AI is always 'O'
+        Turns();
+        if (checkWinner()) {
+            highlightWinner();
+            setTimeout(() => {
+                alert('Player X wins!');
                 gameOver = true;
-            }
+            }, 800);
+        } else if (isBoardFull()) {
+            alert('It\'s a Draw!')
+            resetBoard();
+            gameOver = true;
         }
+    }
 
-        currentPlayer = 'X'; // Switch back to player X after AI move
-        aiIsThinking = false; // Reset the flag after AI finishes its move
+    currentPlayer = 'X'; // Switch back to player X after AI move
+    aiIsThinking = false; // Reset the flag after AI finishes its move
 
-        // Re-enable player's ability to click after AI's turn
-        enablePlayerClick();
-    }, 1000);
+    // Re-enable player's ability to click after AI's turn
+    enablePlayerClick();
 }
 
 
