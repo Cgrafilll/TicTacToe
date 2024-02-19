@@ -26,6 +26,8 @@ body {
     text-align: center;
 }
 
+
+
 @keyframes color {
     0% {
         background-position: 0% 50%;
@@ -36,6 +38,62 @@ body {
     100% {
         background-position: 0% 50%;
     }
+}
+
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px; /* Add some padding for better visibility */
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: inline-block;   
+    margin-right: 20px; /* Adjust the margin between menu items as needed */
+    color: white; /* Set the text color as per your design */
+    font-weight: bold;
+    font-size: 40px; /* Set the font size as per your design */
+    font-weight: 100;
+}
+
+a {
+    text-decoration: none; /* Remove underline */
+}
+
+a:hover {
+    color: #FF2E63; /* Set the hover color as per your design */
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    margin-right: 2px; /* Adjust the margin between the logo and text as needed */
+}
+
+
+.logo {
+    position: fixed;
+    top: 0;
+    size: 30%;
+}
+
+.logo span {
+    font-size: 24px;
 }
 
 .back {
